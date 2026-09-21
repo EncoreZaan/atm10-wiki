@@ -114,6 +114,21 @@
   }
   .meta-row b{ color:var(--ink); font-weight:500; }
 
+  .craft-cta{
+    margin-top:20px;
+    display:flex; align-items:center; gap:14px;
+    background:var(--accent); color:var(--paper);
+    border-radius:5px; padding:16px 20px;
+    text-decoration:none;
+    box-shadow: 0 10px 24px -10px rgba(138,47,31,0.5);
+    transition: transform .12s ease;
+  }
+  .craft-cta:hover{ transform:translateY(-2px); }
+  .craft-cta-icon{ font-size:26px; flex:none; }
+  .craft-cta strong{ display:block; font-family:'Fraunces',serif; font-size:17px; font-weight:600; }
+  .craft-cta small{ display:block; font-size:12.5px; opacity:.85; margin-top:2px; font-weight:400; }
+  .craft-cta-arrow{ margin-left:auto; font-size:20px; flex:none; }
+
   /* ---------- Recherche ---------- */
   .search-wrap{ max-width:980px; margin:22px auto 0; padding:0 20px; }
   .search-box{
@@ -341,6 +356,14 @@
       <span><b>NeoForge 1.21.1</b></span>
       <span><b>Build 8.1+</b> (auto-mise à jour CurseForge)</span>
     </div>
+    <a href="craft/" class="craft-cta">
+      <span class="craft-cta-icon">⚒</span>
+      <span>
+        <strong>Base de craft complète</strong>
+        <small>57 499 items · 71 754 recettes réelles, extraites des mods — cherche n'importe quel minerai ou objet</small>
+      </span>
+      <span class="craft-cta-arrow">→</span>
+    </a>
   </div>
 </header>
 

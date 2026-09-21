@@ -1,0 +1,1 @@
+{"items":{"corn_delight:corn_seeds":{"id":"corn_delight:corn_seeds","name":"Corn Seeds","mod":"corn_delight","produced_by":[13691],"produced_by_total":1,"used_in":[],"used_in_total":0}},"recipes":{"13691":{"id":13691,"type":"farmingforblockheads:market","mod":"farmingforblockheads-neoforge-1.21.1-21.1.13","output":"corn_delight:corn_seeds","output_count":1,"slots":[]}}}

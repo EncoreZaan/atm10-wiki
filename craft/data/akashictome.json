@@ -1,0 +1,1 @@
+{"items":{"akashictome:tome":{"id":"akashictome:tome","name":"Tome","mod":"akashictome","produced_by":[71587],"produced_by_total":1,"used_in":[],"used_in_total":0}},"recipes":{"71587":{"id":71587,"type":"minecraft:crafting_shapeless","mod":"AkashicTome-1.8-30","output":"akashictome:tome","output_count":1,"slots":[["minecraft:book"],["#c:bookshelves"]]}}}

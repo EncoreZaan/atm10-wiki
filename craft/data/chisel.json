@@ -1,0 +1,1 @@
+{"items":{"chisel:chisel":{"id":"chisel:chisel","name":"Chisel","mod":"chisel","produced_by":[10113],"produced_by_total":1,"used_in":[],"used_in_total":0}},"recipes":{"10113":{"id":10113,"type":"minecraft:crafting_shaped","mod":"chisel-neoforge-2.0.1+mc1.21.1","output":"chisel:chisel","output_count":1,"slots":[["minecraft:iron_ingot"],["minecraft:stick"]]}}}

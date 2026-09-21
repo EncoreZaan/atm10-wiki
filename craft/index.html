@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Grimoire ATM10 — Base de craft</title>
+<meta name="description" content="Base de données consultable des 57 000+ items et 71 000+ recettes réelles du serveur BlackBox (All the Mods 10) : minerais, crafts, machines, où trouver quoi.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+  :root{
+    --ink:#2a2117;
+    --ink-soft:#5c4f3e;
+    --paper:#f4ead9;
+    --paper-raised:#ece0cb;
+    --paper-deep:#e2d3b6;
+    --line:#c9b895;
+    --accent:#8a2f1f;
+    --accent-soft:#b8563d;
+    --gold:#a2762f;
+    --slot-bg:#d9c69f;
+    --slot-line:#a2762f;
+    --ok:#4a7048;
+    --shadow: 0 1px 0 rgba(42,33,23,0.06), 0 8px 24px -12px rgba(42,33,23,0.25);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --ink:#ecdfc4;
+      --ink-soft:#c3b393;
+      --paper:#211a12;
+      --paper-raised:#2a2117;
+      --paper-deep:#352a1b;
+      --line:#4a3c26;
+      --accent:#e0855f;
+      --accent-soft:#c96a45;
+      --gold:#d1a24f;
+      --slot-bg:#3a2f1e;
+      --slot-line:#6b5636;
+      --ok:#8fc78a;
+      --shadow: 0 1px 0 rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.6);
+    }
+  }
+
+  *{box-sizing:border-box;}
+  html,body{ margin:0; padding:0; height:100%; }
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Spectral',Georgia,serif;
+    line-height:1.5;
+    display:flex;
+    flex-direction:column;
+  }
+  ::selection{ background:var(--accent-soft); color:var(--paper); }
+  h1,h2,h3,h4{ font-family:'Fraunces',Georgia,serif; font-weight:600; margin:0; color:var(--ink); }
+  .mono{ font-family:'JetBrains Mono',monospace; }
+  a{ color:var(--accent); }
+  button{ font-family:inherit; }
+
+  /* ---------- Bandeau ---------- */
+  .masthead{
+    padding: 20px 20px 16px;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, var(--paper-raised), var(--paper) 160%);
+    flex: none;
+  }
+  .masthead-inner{ max-width:1100px; margin:0 auto; }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--gold); display:flex; align-items:center; gap:10px; justify-content:space-between; flex-wrap:wrap;
+  }
+  .eyebrow .back{ color:var(--ink-soft); text-decoration:none; }
+  .eyebrow .back:hover{ color:var(--accent); }
+  h1.title{ font-size:clamp(24px, 4vw, 32px); margin-top:6px; letter-spacing:-.01em; }
+  h1.title em{ font-style:italic; color:var(--accent); }
+
+  /* ---------- Recherche ---------- */
+  .search-wrap{ max-width:1100px; margin:14px auto 0; }
+  .search-box{
+    display:flex; align-items:center; gap:10px;
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:3px;
+    padding:12px 14px; box-shadow: var(--shadow); position:relative;
+  }
+  .search-box svg{ flex:none; opacity:.6; }
+  .search-box input{
+    border:none; outline:none; background:transparent;
+    font-family:'Spectral',serif; font-size:16px; color:var(--ink); width:100%;
+  }
+  .search-box input::placeholder{ color:var(--ink-soft); opacity:.7; }
+  .search-meta{ font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ink-soft); white-space:nowrap; }
+
+  .results-panel{
+    position:absolute; left:0; right:0; top:calc(100% + 6px);
+    max-height:min(60vh, 480px); overflow-y:auto;
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:4px;
+    box-shadow: 0 20px 40px -14px rgba(0,0,0,0.35);
+    z-index:40;
+  }
+  .results-panel[hidden]{ display:none; }
+  .result-row{
+    display:flex; align-items:center; gap:10px; justify-content:space-between;
+    padding:9px 14px; border-bottom:1px solid var(--line); cursor:pointer; font-size:14px;
+  }
+  .result-row:last-child{ border-bottom:none; }
+  .result-row:hover, .result-row.active{ background:var(--paper-deep); }
+  .result-row .rname{ flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .result-row .rmod{
+    font-family:'JetBrains Mono',monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:.04em;
+    color:var(--gold); flex:none;
+  }
+  .result-row .rcount{ font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--ink-soft); flex:none; }
+
+  /* ---------- Layout principal ---------- */
+  .layout{ flex:1; overflow-y:auto; }
+  .layout-inner{ max-width:1100px; margin:0 auto; padding:26px 20px 80px; }
+
+  /* ---------- Écran d'accueil ---------- */
+  .home-stats{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px;
+    margin-bottom:28px;
+  }
+  .stat-tile{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:4px;
+    padding:16px; text-align:center; box-shadow:var(--shadow);
+  }
+  .stat-tile .num{ font-family:'Fraunces',serif; font-size:28px; font-weight:600; color:var(--accent); font-variant-numeric:tabular-nums; }
+  .stat-tile .lbl{ font-family:'JetBrains Mono',monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-soft); margin-top:4px; }
+
+  .home-hint{
+    background:var(--paper-raised); border:1px solid var(--line); border-left:3px solid var(--accent);
+    border-radius:0 4px 4px 0; padding:16px 18px; margin-bottom:28px; font-size:15px;
+  }
+  .home-hint strong{ color:var(--accent); }
+
+  .popular-grid{
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(200px,1fr)); gap:10px;
+  }
+  .popular-card{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:4px;
+    padding:12px 14px; cursor:pointer; text-align:left; box-shadow:var(--shadow);
+    transition:transform .1s, border-color .1s;
+  }
+  .popular-card:hover{ transform:translateY(-2px); border-color:var(--accent); }
+  .popular-card .pname{ font-size:14.5px; font-weight:600; color:var(--ink); }
+  .popular-card .pmod{ font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; color:var(--gold); margin-top:3px; }
+
+  .section-head{
+    display:flex; align-items:baseline; justify-content:space-between; gap:12px;
+    border-bottom:1px solid var(--line); padding-bottom:8px; margin-bottom:14px; margin-top:36px;
+  }
+  .section-head:first-of-type{ margin-top:0; }
+  .section-head h2{ font-size:19px; }
+  .section-head .hint{ font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ink-soft); }
+
+  /* ---------- Fiche item ---------- */
+  .item-header{ margin-bottom:8px; }
+  .item-header .tag{
+    font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--gold); font-weight:500;
+  }
+  .item-header h2{ font-size:30px; margin-top:6px; }
+  .item-header .item-id{ font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ink-soft); margin-top:4px; }
+
+  .breadcrumb{
+    font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ink-soft); margin-bottom:16px;
+  }
+  .breadcrumb a{ color:var(--ink-soft); text-decoration:underline; text-decoration-color:var(--line); }
+  .breadcrumb a:hover{ color:var(--accent); }
+
+  .recipe-card{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:4px;
+    padding:18px; margin-bottom:14px; box-shadow:var(--shadow);
+  }
+  .recipe-card .rtype{
+    font-family:'JetBrains Mono',monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:.06em;
+    color:var(--gold); margin-bottom:12px; display:flex; align-items:center; gap:8px; justify-content:space-between;
+  }
+  .recipe-card .rtype .rmodtag{ color:var(--ink-soft); text-transform:none; letter-spacing:0; }
+
+  .recipe-grid-row{
+    display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+  }
+  .craft-grid{
+    display:grid; grid-template-columns:repeat(3, 52px); grid-template-rows:repeat(3, 52px); gap:3px;
+    background:var(--slot-line); padding:4px; border-radius:3px; flex:none;
+  }
+  .craft-grid.single-row{ grid-template-columns:repeat(var(--n,3), 52px); grid-template-rows:52px; }
+  .craft-slot{
+    background:var(--slot-bg); border-radius:2px; display:flex; align-items:center; justify-content:center;
+    font-size:9.5px; text-align:center; line-height:1.15; padding:3px; color:var(--ink);
+    cursor:default; position:relative; overflow:hidden;
+  }
+  .craft-slot.filled{ cursor:pointer; }
+  .craft-slot.filled:hover{ outline:2px solid var(--accent); outline-offset:-2px; }
+  .craft-slot .slot-label{ display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+  .craft-slot .slot-alt{ position:absolute; bottom:1px; right:2px; font-family:'JetBrains Mono',monospace; font-size:8px; color:var(--gold); }
+
+  .arrow-sep{ font-size:22px; color:var(--ink-soft); flex:none; }
+
+  .result-slot{
+    background:var(--slot-bg); border:2px solid var(--ok); border-radius:3px;
+    width:58px; height:58px; display:flex; align-items:center; justify-content:center; flex:none;
+    text-align:center; font-size:10px; padding:4px; line-height:1.15; cursor:pointer; position:relative;
+  }
+  .result-slot:hover{ outline:2px solid var(--accent); outline-offset:1px; }
+  .result-count{
+    position:absolute; bottom:1px; right:3px; font-family:'JetBrains Mono',monospace; font-size:10px;
+    font-weight:700; color:var(--ink);
+  }
+
+  .recipe-note{ font-size:12.5px; color:var(--ink-soft); margin-top:10px; }
+
+  .more-recipes-note{
+    font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ink-soft);
+    padding:10px 14px; background:var(--paper-deep); border-radius:3px; margin-top:6px;
+  }
+
+  .used-in-grid{
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(180px,1fr)); gap:8px;
+  }
+  .used-in-card{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:4px;
+    padding:10px 12px; cursor:pointer; font-size:13.5px; display:flex; align-items:center; justify-content:space-between; gap:8px;
+  }
+  .used-in-card:hover{ border-color:var(--accent); }
+  .used-in-card .uname{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .used-in-card .utype{ font-family:'JetBrains Mono',monospace; font-size:9.5px; color:var(--gold); flex:none; text-transform:uppercase; }
+
+  .empty-note{
+    font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--ink-soft);
+    padding:14px; text-align:center;
+  }
+
+  .loading-note{ font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--ink-soft); padding:20px; text-align:center; }
+
+  footer{
+    max-width:1100px; margin:0 auto; padding: 24px 20px calc(30px + env(safe-area-inset-bottom,0px));
+    color:var(--ink-soft); font-size:12px; font-family:'JetBrains Mono',monospace;
+    border-top:1px solid var(--line);
+  }
+  footer code{ background:var(--paper-raised); padding:1px 5px; border-radius:3px; }
+  footer a{ color:var(--accent); }
+
+  [hidden]{ display:none !important; }
+
+  @media (max-width:600px){
+    .craft-grid{ grid-template-columns:repeat(3, 44px); grid-template-rows:repeat(3, 44px); }
+    .craft-grid.single-row{ grid-template-columns:repeat(var(--n,3), 44px); grid-template-rows:44px; }
+    .craft-slot{ font-size:8.5px; }
+    .result-slot{ width:50px; height:50px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="eyebrow">
+      <span>Serveur BlackBox · All the Mods 10</span>
+      <a class="back" href="#" id="home-link">← Accueil</a>
+    </div>
+    <h1 class="title">Le <em>Grimoire</em> ATM10 <span class="mono" style="font-size:13px;color:var(--ink-soft);font-weight:400;">— Base de craft</span></h1>
+  </div>
+  <div class="search-wrap">
+    <div class="search-box">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input id="search" type="text" placeholder="Chercher un item, un minerai, un bloc… (ex. osmium, iron ingot, quartz)" autocomplete="off">
+      <span class="search-meta" id="search-meta">chargement…</span>
+      <div class="results-panel" id="results-panel" hidden></div>
+    </div>
+  </div>
+</header>
+
+<main class="layout">
+  <div class="layout-inner" id="content">
+    <div class="loading-note">Chargement de l'index (57 000+ items)…</div>
+  </div>
+</main>
+
+<footer>
+  Base construite à partir des vraies recettes JSON extraites des 445 mods du serveur (<code>/data/mods</code>) le 21/09/2026 — 71 754 recettes, 57 499 items/tags/fluides distincts. Noms affichés en anglais (texte natif des mods) faute de traduction FR embarquée par la plupart des mods. Pour les mécaniques générales et la progression, voir le <a href="../">wiki de présentation</a>.
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  var state = {
+    searchIndex: null,
+    manifest: null,
+    modCache: {},   // mod -> {items, recipes}
+    activeResultIndex: -1,
+  };
+
+  var els = {
+    search: document.getElementById("search"),
+    searchMeta: document.getElementById("search-meta"),
+    resultsPanel: document.getElementById("results-panel"),
+    content: document.getElementById("content"),
+    homeLink: document.getElementById("home-link"),
+  };
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, function(c){
+      return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+    });
+  }
+
+  // ---------- Chargement initial ----------
+  Promise.all([
+    fetch("search_index.json").then(r => r.json()),
+    fetch("manifest.json").then(r => r.json()),
+  ]).then(function(results){
+    state.searchIndex = results[0];
+    state.manifest = results[1];
+    els.searchMeta.textContent = state.searchIndex.length.toLocaleString('fr-FR') + " items";
+    renderHome();
+    if(location.hash){
+      var id = decodeURIComponent(location.hash.slice(1));
+      openItem(id);
+    }
+  }).catch(function(err){
+    els.content.innerHTML = '<div class="empty-note">Erreur de chargement des données : ' + escapeHtml(err.message) + '</div>';
+  });
+
+  // ---------- Recherche ----------
+  function doSearch(q){
+    q = q.trim().toLowerCase();
+    if(!q){ els.resultsPanel.hidden = true; return; }
+    if(!state.searchIndex) return;
+
+    var starts = [], contains = [];
+    for(var i=0; i<state.searchIndex.length; i++){
+      var it = state.searchIndex[i];
+      var nameLower = it.n.toLowerCase();
+      var idx = nameLower.indexOf(q);
+      if(idx === 0) starts.push(it);
+      else if(idx > 0) contains.push(it);
+      if(starts.length >= 40) break;
+    }
+    var combined = starts.concat(contains).slice(0, 40);
+
+    if(combined.length === 0){
+      els.resultsPanel.innerHTML = '<div class="empty-note">Aucun résultat pour « ' + escapeHtml(q) + ' »</div>';
+      els.resultsPanel.hidden = false;
+      return;
+    }
+
+    var html = "";
+    combined.forEach(function(it){
+      html += '<div class="result-row" data-id="' + escapeHtml(it.id) + '">' +
+        '<span class="rname">' + escapeHtml(it.n) + '</span>' +
+        '<span class="rcount">' + (it.p ? it.p + ' craft' + (it.p>1?'s':'') : '') + (it.p && it.u ? ' · ' : '') + (it.u ? it.u + ' usage' + (it.u>1?'s':'') : '') + '</span>' +
+        '<span class="rmod">' + escapeHtml(it.m) + '</span>' +
+        '</div>';
+    });
+    els.resultsPanel.innerHTML = html;
+    els.resultsPanel.hidden = false;
+    state.activeResultIndex = -1;
+
+    Array.prototype.forEach.call(els.resultsPanel.querySelectorAll(".result-row"), function(row){
+      row.addEventListener("click", function(){
+        openItem(row.dataset.id);
+        els.resultsPanel.hidden = true;
+        els.search.value = "";
+      });
+    });
+  }
+
+  var searchDebounce = null;
+  els.search.addEventListener("input", function(){
+    clearTimeout(searchDebounce);
+    var q = els.search.value;
+    searchDebounce = setTimeout(function(){ doSearch(q); }, 60);
+  });
+  els.search.addEventListener("keydown", function(e){
+    var rows = els.resultsPanel.querySelectorAll(".result-row");
+    if(e.key === "ArrowDown"){
+      e.preventDefault();
+      state.activeResultIndex = Math.min(state.activeResultIndex + 1, rows.length - 1);
+      updateActiveRow(rows);
+    } else if(e.key === "ArrowUp"){
+      e.preventDefault();
+      state.activeResultIndex = Math.max(state.activeResultIndex - 1, 0);
+      updateActiveRow(rows);
+    } else if(e.key === "Enter"){
+      if(state.activeResultIndex >= 0 && rows[state.activeResultIndex]){
+        openItem(rows[state.activeResultIndex].dataset.id);
+        els.resultsPanel.hidden = true;
+        els.search.value = "";
+      }
+    } else if(e.key === "Escape"){
+      els.resultsPanel.hidden = true;
+    }
+  });
+  function updateActiveRow(rows){
+    Array.prototype.forEach.call(rows, function(r, i){
+      r.classList.toggle("active", i === state.activeResultIndex);
+    });
+    if(rows[state.activeResultIndex]) rows[state.activeResultIndex].scrollIntoView({block:"nearest"});
+  }
+  document.addEventListener("click", function(e){
+    if(!e.target.closest(".search-box")) els.resultsPanel.hidden = true;
+  });
+
+  // ---------- Accueil ----------
+  var POPULAR_IDS = [
+    "minecraft:iron_ingot","minecraft:redstone","mekanism:osmium_ingot","minecraft:diamond",
+    "mekanism:steel_ingot","minecraft:gold_ingot","ae2:certus_quartz_crystal","minecraft:copper_ingot",
+    "minecraft:netherite_ingot","create:andesite_alloy","minecraft:stick","allthemodium:allthemodium_ingot"
+  ];
+
+  function renderHome(){
+    var totalRecipes = 0;
+    Object.keys(state.manifest).forEach(function(m){ totalRecipes += 0; });
+
+    var html = '';
+    html += '<div class="home-stats">';
+    html += statTile(state.searchIndex.length.toLocaleString('fr-FR'), "Items & tags référencés");
+    html += statTile(Object.keys(state.manifest).length.toLocaleString('fr-FR'), "Mods avec recettes");
+    html += statTile("71 754", "Recettes distinctes");
+    html += '</div>';
+
+    html += '<div class="home-hint"><strong>Comment chercher :</strong> tape le nom d\'un item en anglais dans la barre au-dessus (ex. <em>osmium</em>, <em>iron ingot</em>, <em>certus quartz</em>) — la recherche est instantanée sur tous les items du serveur. Clique un résultat pour voir sa fiche : comment le crafter, et dans quoi il sert.</div>';
+
+    html += '<div class="section-head"><h2>Minerais et lingots courants</h2><span class="hint">raccourcis</span></div>';
+    html += '<div class="popular-grid">';
+    POPULAR_IDS.forEach(function(id){
+      var entry = state.searchIndex.find(function(x){ return x.id === id; });
+      if(!entry) return;
+      html += '<button type="button" class="popular-card" data-id="' + escapeHtml(id) + '">' +
+        '<div class="pname">' + escapeHtml(entry.n) + '</div>' +
+        '<div class="pmod">' + escapeHtml(entry.m) + '</div>' +
+        '</button>';
+    });
+    html += '</div>';
+
+    els.content.innerHTML = html;
+    history.replaceState(null, "", location.pathname);
+
+    Array.prototype.forEach.call(els.content.querySelectorAll(".popular-card"), function(card){
+      card.addEventListener("click", function(){ openItem(card.dataset.id); });
+    });
+  }
+
+  function statTile(num, lbl){
+    return '<div class="stat-tile"><div class="num">' + num + '</div><div class="lbl">' + lbl + '</div></div>';
+  }
+
+  els.homeLink.addEventListener("click", function(e){ e.preventDefault(); renderHome(); });
+
+  // ---------- Fiche item ----------
+  function safeFilename(mod){
+    return mod.replace(/[^a-zA-Z0-9_-]/g, "_") || "unknown";
+  }
+
+  function loadModData(mod){
+    if(state.modCache[mod]) return Promise.resolve(state.modCache[mod]);
+    var entry = state.manifest[mod];
+    if(!entry) return Promise.reject(new Error("mod inconnu: " + mod));
+    return fetch("data/" + entry.file).then(function(r){ return r.json(); }).then(function(data){
+      state.modCache[mod] = data;
+      return data;
+    });
+  }
+
+  function findEntryIndex(id){
+    return state.searchIndex.find(function(x){ return x.id === id; });
+  }
+
+  function openItem(id){
+    var entry = findEntryIndex(id);
+    if(!entry){
+      els.content.innerHTML = '<div class="empty-note">Item introuvable : ' + escapeHtml(id) + '</div>';
+      return;
+    }
+    els.content.innerHTML = '<div class="loading-note">Chargement de ' + escapeHtml(entry.n) + '…</div>';
+    history.replaceState(null, "", "#" + encodeURIComponent(id));
+
+    loadModData(entry.m).then(function(data){
+      renderItem(id, entry, data);
+      window.scrollTo(0,0);
+    }).catch(function(err){
+      els.content.innerHTML = '<div class="empty-note">Erreur de chargement : ' + escapeHtml(err.message) + '</div>';
+    });
+  }
+
+  function labelFor(id){
+    var e = findEntryIndex(id);
+    if(e) return e.n;
+    // fallback : humanize côté client pour les ids pas dans l'index (ne devrait pas arriver)
+    var raw = id.replace(/^#/, "").split(":").pop();
+    return raw.replace(/_/g, " ").replace(/\b\w/g, function(c){ return c.toUpperCase(); });
+  }
+
+  function isTag(id){ return id.charAt(0) === "#"; }
+
+  function renderCraftSlot(ids, allowClick){
+    var primary = ids[0];
+    var label = labelFor(primary);
+    var cls = "craft-slot filled";
+    var extra = ids.length > 1 ? '<span class="slot-alt">+' + (ids.length-1) + '</span>' : '';
+    return '<div class="' + cls + '" data-id="' + escapeHtml(primary) + '" title="' + escapeHtml(label) + (ids.length>1 ? ' (+' + (ids.length-1) + ' alternative(s))' : '') + '">' +
+      '<span class="slot-label">' + escapeHtml(shorten(label)) + '</span>' + extra +
+      '</div>';
+  }
+
+  function shorten(label){
+    if(label.length <= 22) return label;
+    return label.slice(0, 20) + "…";
+  }
+
+  function renderRecipeCard(recipe){
+    var slots = recipe.slots || [];
+    var isGrid3 = recipe.type === "minecraft:crafting_shaped" && slots.length <= 9;
+    var html = '<div class="recipe-card">';
+    html += '<div class="rtype"><span>' + escapeHtml(recipe.type || "recette") + '</span><span class="rmodtag">' + escapeHtml(recipe.mod || "") + '</span></div>';
+    html += '<div class="recipe-grid-row">';
+
+    // grille d'ingrédients
+    var n = slots.length;
+    if(n === 0){
+      html += '<div class="recipe-note">Aucun ingrédient détecté pour cette recette (format non standard).</div>';
+    } else if(n <= 3){
+      html += '<div class="craft-grid single-row" style="--n:' + n + '">';
+      slots.forEach(function(s){ html += renderCraftSlot(s); });
+      html += '</div>';
+    } else {
+      // grille 3x3, complète avec cases vides
+      html += '<div class="craft-grid">';
+      for(var i=0;i<9;i++){
+        if(i < n && slots[i] && slots[i].length){
+          html += renderCraftSlot(slots[i]);
+        } else {
+          html += '<div class="craft-slot"></div>';
+        }
+      }
+      html += '</div>';
+    }
+
+    html += '<span class="arrow-sep">→</span>';
+
+    var outLabel = recipe.output ? labelFor(recipe.output) : "?";
+    html += '<div class="result-slot" data-id="' + escapeHtml(recipe.output || "") + '" title="' + escapeHtml(outLabel) + '">' +
+      '<span class="slot-label">' + escapeHtml(shorten(outLabel)) + '</span>' +
+      (recipe.output_count && recipe.output_count > 1 ? '<span class="result-count">×' + recipe.output_count + '</span>' : '') +
+      '</div>';
+
+    html += '</div>'; // recipe-grid-row
+    html += '</div>'; // recipe-card
+    return html;
+  }
+
+  function renderItem(id, entry, modData){
+    var item = modData.items[id];
+    if(!item){
+      els.content.innerHTML = '<div class="empty-note">Détail introuvable pour ' + escapeHtml(id) + '</div>';
+      return;
+    }
+
+    var html = '';
+    html += '<div class="breadcrumb"><a href="#" id="bc-home">Accueil</a> / ' + escapeHtml(item.mod) + ' / ' + escapeHtml(item.name) + '</div>';
+    html += '<div class="item-header">';
+    html += '<span class="tag">' + escapeHtml(item.mod) + (isTag(id) ? ' · tag' : '') + '</span>';
+    html += '<h2>' + escapeHtml(item.name) + '</h2>';
+    html += '<div class="item-id mono">' + escapeHtml(id) + '</div>';
+    html += '</div>';
+
+    // Comment le crafter
+    html += '<div class="section-head"><h2>Comment l\'obtenir</h2>' +
+      '<span class="hint">' + item.produced_by_total + ' recette' + (item.produced_by_total>1?'s':'') + '</span></div>';
+
+    if(item.produced_by.length === 0){
+      html += '<div class="empty-note">Aucune recette de craft trouvée pour cet item — probablement un objet de loot, de minage direct, ou produit par une mécanique non couverte par les fichiers de recette (rituel, génération de monde…).</div>';
+    } else {
+      var shown = item.produced_by.slice(0, 20);
+      shown.forEach(function(rid){
+        var r = modData.recipes[String(rid)];
+        if(r) html += renderRecipeCard(r);
+      });
+      if(item.produced_by_total > shown.length){
+        html += '<div class="more-recipes-note">+ ' + (item.produced_by_total - shown.length) + ' autre(s) recette(s) produisant cet item (variantes de compat inter-mods, non affichées ici).</div>';
+      }
+    }
+
+    // Où il sert
+    html += '<div class="section-head"><h2>Où il sert</h2>' +
+      '<span class="hint">' + item.used_in_total + ' recette' + (item.used_in_total>1?'s':'') + '</span></div>';
+
+    if(item.used_in.length === 0){
+      html += '<div class="empty-note">Cet item n\'apparaît comme ingrédient dans aucune recette connue.</div>';
+    } else {
+      var usedShown = item.used_in.slice(0, 60);
+      html += '<div class="used-in-grid">';
+      usedShown.forEach(function(rid){
+        var r = modData.recipes[String(rid)];
+        if(!r || !r.output) return;
+        var outLabel = labelFor(r.output);
+        html += '<div class="used-in-card" data-id="' + escapeHtml(r.output) + '">' +
+          '<span class="uname">' + escapeHtml(outLabel) + '</span>' +
+          '<span class="utype">' + escapeHtml((r.type||"").split(":").pop().replace(/_/g," ")) + '</span>' +
+          '</div>';
+      });
+      html += '</div>';
+      if(item.used_in_total > usedShown.length){
+        html += '<div class="more-recipes-note">+ ' + (item.used_in_total - usedShown.length) + ' autre(s) usage(s) non affiché(s).</div>';
+      }
+    }
+
+    els.content.innerHTML = html;
+
+    // Navigation : clic sur un slot d'ingrédient/résultat -> ouvre cet item (même si dans un autre mod)
+    Array.prototype.forEach.call(els.content.querySelectorAll(".craft-slot.filled, .result-slot, .used-in-card"), function(el){
+      var targetId = el.dataset.id;
+      if(!targetId) return;
+      el.addEventListener("click", function(){
+        if(isTag(targetId)){
+          // un tag : on cherche s'il existe une entrée pour lui (rare), sinon on lance une recherche
+          if(findEntryIndex(targetId)){ openItem(targetId); }
+          else {
+            els.search.value = labelFor(targetId).replace(/^Any /, "").replace(/ \(tag\)$/, "");
+            doSearch(els.search.value);
+            els.search.focus();
+          }
+          return;
+        }
+        if(findEntryIndex(targetId)) openItem(targetId);
+      });
+    });
+
+    var bcHome = document.getElementById("bc-home");
+    if(bcHome) bcHome.addEventListener("click", function(e){ e.preventDefault(); renderHome(); });
+  }
+
+  window.addEventListener("hashchange", function(){
+    if(location.hash){
+      var id = decodeURIComponent(location.hash.slice(1));
+      if(state.searchIndex) openItem(id);
+    }
+  });
+
+})();
+</script>
+</body>
+</html>

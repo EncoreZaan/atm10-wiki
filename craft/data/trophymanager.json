@@ -1,0 +1,1 @@
+{"items":{"#trophymanager:trophy_base":{"id":"#trophymanager:trophy_base","name":"Any Trophy Base (tag)","mod":"trophymanager","produced_by":[],"produced_by_total":0,"used_in":[35752],"used_in_total":1}},"recipes":{"35752":{"id":35752,"type":"trophymanager:item_trophy","mod":"trophymanager-1.21.1-3.0.0","output":null,"output_count":null,"slots":[["#trophymanager:trophy_base"]]}}}

@@ -1,0 +1,1 @@
+{"items":{"ars_ocultas:altar":{"id":"ars_ocultas:altar","name":"Altar","mod":"ars_ocultas","produced_by":[24503],"produced_by_total":1,"used_in":[],"used_in_total":0}},"recipes":{"24503":{"id":24503,"type":"ars_nouveau:enchanting_apparatus","mod":"ars_ocultas-1.21.1-2.6.1","output":"ars_ocultas:altar","output_count":1,"slots":[]}}}

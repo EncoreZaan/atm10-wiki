@@ -1,0 +1,1 @@
+{"items":{"miencraft:melon":{"id":"miencraft:melon","name":"Melon","mod":"miencraft","produced_by":[],"produced_by_total":0,"used_in":[60264],"used_in_total":1}},"recipes":{"60264":{"id":60264,"type":"justenoughbreeding:breeding","mod":"justenoughbreeding-neoforge-1.21.1-3.2.1","output":null,"output_count":null,"slots":[["miencraft:melon"]]}}}

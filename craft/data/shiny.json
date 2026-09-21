@@ -1,0 +1,1 @@
+{"items":{"shiny:shiny_bee":{"id":"shiny:shiny_bee","name":"Shiny Bee","mod":"shiny","produced_by":[],"produced_by_total":0,"used_in":[15041],"used_in_total":1}},"recipes":{"15041":{"id":15041,"type":"productivebees:advanced_beehive","mod":"productivebees-1.21.1-13.13.5","output":null,"output_count":null,"slots":[["shiny:shiny_bee"]]}}}

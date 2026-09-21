@@ -1,0 +1,1 @@
+{"items":{"kiwiboi:kiwicake":{"id":"kiwiboi:kiwicake","name":"Kiwicake","mod":"kiwiboi","produced_by":[],"produced_by_total":0,"used_in":[60205],"used_in_total":1}},"recipes":{"60205":{"id":60205,"type":"justenoughbreeding:breeding","mod":"justenoughbreeding-neoforge-1.21.1-3.2.1","output":null,"output_count":null,"slots":[["kiwiboi:kiwicake"]]}}}

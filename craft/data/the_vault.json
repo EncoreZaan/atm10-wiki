@@ -1,0 +1,1 @@
+{"items":{"the_vault:ornate_chain":{"id":"the_vault:ornate_chain","name":"Ornate Chain","mod":"the_vault","produced_by":[],"produced_by_total":0,"used_in":[38884],"used_in_total":1}},"recipes":{"38884":{"id":38884,"type":"create:splashing","mod":"create-1.21.1-6.0.10","output":null,"output_count":null,"slots":[["the_vault:ornate_chain"]]}}}

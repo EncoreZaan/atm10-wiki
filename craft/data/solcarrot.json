@@ -1,0 +1,1 @@
+{"items":{"solcarrot:food_book":{"id":"solcarrot:food_book","name":"Food Book","mod":"solcarrot","produced_by":[64162],"produced_by_total":1,"used_in":[],"used_in_total":0}},"recipes":{"64162":{"id":64162,"type":"minecraft:crafting_shapeless","mod":"solcarrot-1.21.1-1.16.6","output":"solcarrot:food_book","output_count":1,"slots":[["minecraft:book"],["minecraft:carrot"]]}}}

@@ -1,0 +1,1 @@
+{"items":{"treetap:tap":{"id":"treetap:tap","name":"Tap","mod":"treetap","produced_by":[21379],"produced_by_total":1,"used_in":[],"used_in_total":0}},"recipes":{"21379":{"id":21379,"type":"minecraft:crafting_shaped","mod":"treetap-1.21.1-0.4.6","output":"treetap:tap","output_count":1,"slots":[["#c:ingots/copper"]]}}}

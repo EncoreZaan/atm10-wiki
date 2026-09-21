@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Grimoire ATM10 — Wiki du serveur BlackBox</title>
+<meta name="description" content="Wiki complet des mods du serveur BlackBox — All the Mods 10 : catégories, mécaniques et crafts clés.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+  :root{
+    --ink:#2a2117;
+    --ink-soft:#5c4f3e;
+    --paper:#f4ead9;
+    --paper-raised:#ece0cb;
+    --paper-deep:#e2d3b6;
+    --line:#c9b895;
+    --accent:#8a2f1f;
+    --accent-soft:#b8563d;
+    --gold:#a2762f;
+    --tag-stockage:#5a6e46;
+    --tag-tech:#3f6b76;
+    --tag-magie:#7a3f7a;
+    --tag-automatisation:#6b5a35;
+    --tag-exploration:#4a7048;
+    --tag-deco:#a2762f;
+    --tag-agriculture:#5c8a3a;
+    --tag-mobs:#8a2f1f;
+    --tag-qol:#736354;
+    --shadow: 0 1px 0 rgba(42,33,23,0.06), 0 8px 24px -12px rgba(42,33,23,0.25);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --ink:#ecdfc4;
+      --ink-soft:#c3b393;
+      --paper:#211a12;
+      --paper-raised:#2a2117;
+      --paper-deep:#352a1b;
+      --line:#4a3c26;
+      --accent:#e0855f;
+      --accent-soft:#c96a45;
+      --gold:#d1a24f;
+      --tag-stockage:#9db584;
+      --tag-tech:#84c2cf;
+      --tag-magie:#cf9ecf;
+      --tag-automatisation:#c9b072;
+      --tag-exploration:#8fc78a;
+      --tag-deco:#d1a24f;
+      --tag-agriculture:#a3d17a;
+      --tag-mobs:#e0855f;
+      --tag-qol:#a89a86;
+      --shadow: 0 1px 0 rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.6);
+    }
+  }
+
+  *{box-sizing:border-box;}
+  html,body{ margin:0; padding:0; }
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Spectral',Georgia,serif;
+    line-height:1.55;
+  }
+  ::selection{ background:var(--accent-soft); color:var(--paper); }
+
+  h1,h2,h3,h4{ font-family:'Fraunces',Georgia,serif; font-weight:600; margin:0; color:var(--ink); }
+  .mono{ font-family:'JetBrains Mono',monospace; }
+  a{ color:var(--accent); }
+
+  /* ---------- Bandeau ---------- */
+  .masthead{
+    padding: 28px 20px 22px;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, var(--paper-raised), var(--paper) 140%);
+    position:relative;
+    overflow:hidden;
+  }
+  .masthead::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image: radial-gradient(circle at 1px 1px, var(--line) 1px, transparent 0);
+    background-size: 22px 22px;
+    opacity:.35;
+    pointer-events:none;
+  }
+  .masthead-inner{ max-width:980px; margin:0 auto; position:relative; }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--gold);
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{ content:""; width:22px; height:1px; background:var(--gold); display:inline-block; }
+  h1.title{
+    font-size:clamp(34px, 6vw, 54px);
+    margin-top:10px;
+    letter-spacing:-.01em;
+  }
+  h1.title em{ font-style:italic; color:var(--accent); }
+  .subtitle{
+    margin-top:10px;
+    color:var(--ink-soft);
+    font-size:16px;
+    max-width:60ch;
+  }
+  .meta-row{
+    margin-top:18px;
+    display:flex; flex-wrap:wrap; gap:8px 18px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+  .meta-row b{ color:var(--ink); font-weight:500; }
+
+  /* ---------- Recherche ---------- */
+  .search-wrap{ max-width:980px; margin:22px auto 0; padding:0 20px; }
+  .search-box{
+    display:flex; align-items:center; gap:10px;
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    border-radius:3px;
+    padding:12px 14px;
+    box-shadow: var(--shadow);
+  }
+  .search-box svg{ flex:none; opacity:.6; }
+  .search-box input{
+    border:none; outline:none; background:transparent;
+    font-family:'Spectral',serif; font-size:16px; color:var(--ink);
+    width:100%;
+  }
+  .search-box input::placeholder{ color:var(--ink-soft); opacity:.7; }
+  .search-count{
+    font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ink-soft);
+    white-space:nowrap;
+  }
+
+  /* ---------- Layout principal ---------- */
+  .layout{
+    max-width:980px; margin:0 auto;
+    padding: 26px 20px 80px;
+    display:grid; grid-template-columns: 1fr;
+    gap:28px;
+  }
+
+  /* ---------- Filtres catégories ---------- */
+  .cat-filters{ display:flex; flex-wrap:wrap; gap:8px; }
+  .cat-chip{
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:'JetBrains Mono',monospace; font-size:11.5px;
+    padding:7px 11px 7px 9px;
+    border-radius:20px;
+    border:1px solid var(--line);
+    background:var(--paper-raised);
+    color:var(--ink-soft);
+    cursor:pointer;
+    user-select:none;
+    transition:border-color .15s, color .15s, background .15s;
+  }
+  .cat-chip svg{ width:13px; height:13px; flex:none; }
+  .cat-chip[data-active="true"]{
+    background:var(--cat-color, var(--accent));
+    border-color:var(--cat-color, var(--accent));
+    color:var(--paper);
+  }
+  .cat-chip .count{ opacity:.65; }
+  .cat-chip[data-active="true"] .count{ opacity:.85; }
+
+  /* ---------- Fiches vedettes (grille) ---------- */
+  .section-head{
+    display:flex; align-items:baseline; justify-content:space-between; gap:12px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:16px;
+  }
+  .section-head h2{ font-size:22px; }
+  .section-head .hint{ font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ink-soft); }
+
+  .feature-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap:14px;
+  }
+  .feature-card{
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:16px;
+    cursor:pointer;
+    box-shadow:var(--shadow);
+    transition: transform .12s ease, border-color .12s ease;
+    display:flex; flex-direction:column; gap:8px;
+    text-align:left;
+  }
+  .feature-card:hover{ transform:translateY(-2px); border-color:var(--cat-color); }
+  .feature-card .tag{
+    font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--cat-color); font-weight:500;
+  }
+  .feature-card h3{ font-size:18px; line-height:1.25; }
+  .feature-card p{ margin:0; font-size:13.5px; color:var(--ink-soft); line-height:1.5; }
+
+  /* ---------- Table des mods (index complet) ---------- */
+  .mods-index{
+    border:1px solid var(--line);
+    border-radius:4px;
+    overflow:hidden;
+    background:var(--paper-raised);
+  }
+  .mods-row{
+    display:flex; align-items:center; gap:12px;
+    padding:9px 14px;
+    border-bottom:1px solid var(--line);
+    font-size:14px;
+  }
+  .mods-row:last-child{ border-bottom:none; }
+  .mods-row:nth-child(even){ background:var(--paper-deep); }
+  .mods-row .dot{ width:7px; height:7px; border-radius:50%; background:var(--cat-color); flex:none; }
+  .mods-row .name{ flex:1; min-width:0; }
+  .mods-row .cat-label{
+    font-family:'JetBrains Mono',monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:.06em;
+    color:var(--cat-color); flex:none;
+  }
+  .empty-state{
+    text-align:center; padding:40px 20px; color:var(--ink-soft); font-family:'JetBrains Mono',monospace; font-size:13px;
+  }
+
+  /* ---------- Modale de détail ---------- */
+  .overlay{
+    position:fixed; inset:0;
+    background: rgba(20,15,8,0.55);
+    backdrop-filter: blur(2px);
+    display:flex; align-items:flex-start; justify-content:center;
+    padding: 24px 16px 24px;
+    overflow-y:auto;
+    z-index:50;
+  }
+  .overlay[hidden]{ display:none; }
+  .detail-card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:6px;
+    max-width:720px; width:100%;
+    padding:0;
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.45);
+    margin-top: 20px;
+  }
+  .detail-head{
+    padding:24px 28px 18px;
+    border-bottom:1px solid var(--line);
+    background:var(--paper-raised);
+    border-radius:6px 6px 0 0;
+    position:relative;
+  }
+  .detail-close{
+    position:absolute; top:16px; right:16px;
+    width:30px; height:30px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:var(--paper);
+    color:var(--ink-soft);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    font-family:'JetBrains Mono',monospace;
+    font-size:14px;
+  }
+  .detail-close:hover{ color:var(--accent); border-color:var(--accent); }
+  .detail-head .tag{
+    font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--cat-color); font-weight:500;
+  }
+  .detail-head h2{ font-size:28px; margin-top:6px; padding-right:30px; }
+  .detail-head .tagline{ color:var(--ink-soft); margin-top:6px; font-size:15px; font-style:italic; }
+
+  .detail-body{ padding:22px 28px 30px; }
+  .detail-body h4{
+    font-family:'JetBrains Mono',monospace; font-size:11.5px; text-transform:uppercase; letter-spacing:.08em;
+    color:var(--gold); margin-bottom:10px; margin-top:22px;
+  }
+  .detail-body h4:first-child{ margin-top:0; }
+  .detail-body p{ margin:0 0 8px; font-size:15px; }
+  .prog-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; counter-reset:step; }
+  .prog-list li{ counter-increment:step; padding-left:30px; position:relative; font-size:14.5px; }
+  .prog-list li::before{
+    content: counter(step);
+    position:absolute; left:0; top:1px;
+    width:20px; height:20px;
+    border-radius:50%;
+    background:var(--cat-color);
+    color:var(--paper);
+    font-family:'JetBrains Mono',monospace; font-size:11px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .prog-list li strong{ color:var(--ink); }
+  .craft-box{
+    background:var(--paper-deep);
+    border-left:3px solid var(--cat-color);
+    padding:12px 14px;
+    font-size:14px;
+    border-radius:0 3px 3px 0;
+  }
+  .tip-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; }
+  .tip-list li{ font-size:14px; padding-left:20px; position:relative; }
+  .tip-list li::before{ content:"—"; position:absolute; left:0; color:var(--accent); }
+  .related-tags{ display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .related-tag{
+    font-family:'JetBrains Mono',monospace; font-size:11px;
+    padding:4px 9px; border-radius:20px;
+    border:1px solid var(--line);
+    color:var(--ink-soft);
+  }
+
+  footer{
+    max-width:980px; margin:0 auto; padding: 0 20px 40px;
+    color:var(--ink-soft); font-size:12.5px; font-family:'JetBrains Mono',monospace;
+    border-top:1px solid var(--line); padding-top:18px;
+  }
+  footer code{ background:var(--paper-raised); padding:1px 5px; border-radius:3px; }
+  footer a{ color:var(--accent); }
+
+  @media (max-width:600px){
+    .detail-head{ padding:20px 18px 16px; }
+    .detail-body{ padding:18px 18px 24px; }
+    .feature-grid{ grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width:420px){
+    .feature-grid{ grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="eyebrow">Serveur BlackBox · All the Mods 10</div>
+    <h1 class="title">Le <em>Grimoire</em> ATM10</h1>
+    <p class="subtitle">Guide de référence pour tous les mods installés sur le serveur : à quoi ils servent, comment progresser dedans, et les premiers crafts à connaître.</p>
+    <div class="meta-row">
+      <span><b id="stat-total">—</b> mods recensés</span>
+      <span><b>NeoForge 1.21.1</b></span>
+      <span><b>Build 8.1+</b> (auto-mise à jour CurseForge)</span>
+    </div>
+  </div>
+</header>
+
+<div class="search-wrap">
+  <div class="search-box">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    <input id="search" type="text" placeholder="Chercher un mod (ex. Mekanism, Ars Nouveau, stockage…)" autocomplete="off">
+    <span class="search-count" id="search-count"></span>
+  </div>
+</div>
+
+<main class="layout">
+
+  <section>
+    <div class="cat-filters" id="cat-filters"></div>
+  </section>
+
+  <section id="featured-section">
+    <div class="section-head">
+      <h2>Fiches détaillées</h2>
+      <span class="hint">clique une carte pour la mécanique complète</span>
+    </div>
+    <div class="feature-grid" id="feature-grid"></div>
+  </section>
+
+  <section id="index-section">
+    <div class="section-head">
+      <h2>Index complet du serveur</h2>
+      <span class="hint" id="index-count-hint"></span>
+    </div>
+    <div class="mods-index" id="mods-index"></div>
+    <div class="empty-state" id="empty-state" hidden>Aucun mod ne correspond à ta recherche.</div>
+  </section>
+
+</main>
+
+<footer>
+  Généré à partir de la liste réelle des mods du conteneur <code>minecraft-server</code> (dossier <code>/data/mods</code>) le 21/09/2026, pour le serveur <a href="rejoindre-le-serveur.html">BlackBox Minecraft</a>. Les fiches détaillées décrivent les mécaniques générales du mod ; les recettes précises peuvent varier légèrement selon la configuration KubeJS du pack — vérifie toujours en jeu via JEI (touche par défaut : <code>R</code> sur un objet).
+</footer>
+
+<div class="overlay" id="overlay" hidden>
+  <div class="detail-card" id="detail-card"></div>
+</div>
+
+<script>
+/* ============================================================
+   Données du Wiki ATM10 — BlackBox Minecraft
+   ============================================================ */
+
+const CATEGORIES = [
+  { id: "stockage",    label: "Stockage & Logistique",     icon: "M3 7l9-4 9 4-9 4-9-4zm0 0v10l9 4 9-4V7M3 7l9 4 9-4" },
+  { id: "tech",        label: "Technologie & Énergie",     icon: "M13 2L3 14h7l-1 8 10-12h-7l1-8z" },
+  { id: "magie",       label: "Magie & Rituels",           icon: "M12 2l1.8 5.6L19 9l-5.2 1.4L12 16l-1.8-5.6L5 9l5.2-1.4L12 2z" },
+  { id: "automatisation", label: "Redstone & Scripts",     icon: "M4 4h16v4H4zM4 10h10v4H4zM4 16h16v4H4z" },
+  { id: "exploration", label: "Exploration & Structures",  icon: "M9 20l-5.5 2 1-6L1 12l6-1 3-6 3 6 6 1-4.5 4 1 6z" },
+  { id: "deco",        label: "Décoration & Bâti",         icon: "M3 21h18M5 21V9l7-6 7 6v12M9 21v-6h6v6" },
+  { id: "agriculture", label: "Agriculture & Nourriture",  icon: "M12 2C8 6 6 10 6 13a6 6 0 0012 0c0-3-2-7-6-11z" },
+  { id: "mobs",        label: "Créatures & Combat",        icon: "M12 2l2.4 5.2L20 8l-4 4 1 6-5-3-5 3 1-6-4-4 5.6-.8z" },
+  { id: "qol",         label: "Confort & Librairies",      icon: "M12 4a8 8 0 100 16 8 8 0 000-16zm0 4v4l3 2" },
+];
+
+const FEATURED = [
+  {
+    id: "ae2",
+    name: "Applied Energistics 2",
+    cat: "stockage",
+    tagline: "Le réseau de stockage numérique : tout ton coffre en un seul système consultable partout.",
+    summary: "AE2 remplace des dizaines de coffres par un réseau ME (Matter Energy) : un espace de stockage numérique consultable et triable depuis n'importe quel terminal branché au réseau, avec de l'auto-crafting intégré.",
+    progression: [
+      "**Contrôleur ME + Câble ME** : le cœur du réseau. Un Contrôleur (ME Controller) relie tout, alimenté en énergie (FE).",
+      "**Drive ME + Cellules de stockage (1k/4k/16k/64k)** : chaque cellule stocke un nombre de types/quantités d'objets. Une cellule 1k stocke ~63 types d'objets empilables.",
+      "**Terminal ME** : interface pour consulter, insérer et retirer les objets du réseau, avec recherche et tri.",
+      "**Import/Export Bus** : connectent le réseau à des machines ou coffres externes pour automatiser l'entrée/sortie d'objets.",
+      "**Processeur de craft (1k/4k/16k Crafting Co-Processing Unit) + Crafting Terminal** : permet l'auto-crafting — le réseau fabrique lui-même les objets en suivant des recettes enregistrées (Pattern), en piochant les ingrédients dans le stockage.",
+      "**Quartz Certus** (à miner ou cultiver en cristal) : ressource de base de tout le mod, sert à fabriquer câbles, processeurs et cellules.",
+    ],
+    craft: "Craft de départ typique : Quartz Certus (miné ou cultivé sur un Charged Certus Quartz Crystal) → Silicium (four) → Pierre à Craft (Certus Quartz Crystal + Redstone) pour débloquer les premières recettes. Le Contrôleur ME se fabrique avec des lingots de fer/or et des composants ME de base. Ensuite : Drive → Cellules → Terminal, dans cet ordre.",
+    tips: [
+      "Le réseau doit rester **alimenté en énergie** (FE) en continu — brancher un générateur ou une batterie ME dès le départ.",
+      "Ne jamais dépasser le **canal max** d'un câble dense (32 canaux) sans passer par des câbles ME denses supplémentaires ou des covers de Mekanism.",
+      "Les addons présents sur le serveur (Extended AE, MEGA Cells, ME Requester, AE2 Wireless Terminal…) ajoutent des cellules géantes, des terminaux sans fil et de l'intégration avec Mekanism/Refined Storage.",
+    ],
+    mods_liés: ["Extended AE", "MEGACells", "AdvancedAE", "AE2 Wireless Terminal (ae2wtlib)", "Applied Mekanistics", "Applied Flux", "ME Requester", "Ender Drives"],
+  },
+  {
+    id: "refinedstorage",
+    name: "Refined Storage",
+    cat: "stockage",
+    tagline: "L'alternative à AE2 : réseau de stockage plus simple à démarrer, basé sur les câbles et disques.",
+    summary: "Même principe qu'AE2 (stockage numérique en réseau + auto-crafting) mais avec une progression plus douce et moins de ressources exotiques. Beaucoup de joueurs choisissent l'un OU l'autre plutôt que les deux.",
+    progression: [
+      "**Contrôleur** : cœur du réseau, à alimenter en énergie.",
+      "**Câble + Disk Drive** : le Disk Drive accueille des disques de stockage (1k à 64k) au lieu de cellules.",
+      "**Grid (Terminal)** : interface de consultation/tri, existe en version murale ou portable.",
+      "**Importer/Exporter** : automatisent les flux entrants/sortants.",
+      "**Crafter + Pattern Grid** : équivalent de l'auto-crafting d'AE2, avec des Crafters à chaîner pour des recettes complexes.",
+    ],
+    craft: "Le Contrôleur se fabrique avec des lingots basiques (fer/cuivre selon la version) — beaucoup plus accessible qu'AE2 en début de partie. Les disques (1k, 4k, 16k, 64k) se fabriquent en combinant le disque précédent + composants de stockage.",
+    tips: [
+      "Sur ce serveur, Refined Storage a des addons d'intégration avec **Mekanism**, **Curios** et **JEI** (voir mods liés) — pratique pour piocher directement des ressources Mekanism dans le réseau.",
+      "Moins gourmand en configuration qu'AE2, bon choix si tu veux un stockage numérique rapidement sans te plonger dans le quartz certus.",
+    ],
+    mods_liés: ["Refined Storage: Curios Integration", "Refined Storage: JEI Integration", "Refined Storage: Mekanism Integration", "Refined Storage: Quartz Arsenal", "Refined Types"],
+  },
+  {
+    id: "sophisticated",
+    name: "Sophisticated Storage & Backpacks",
+    cat: "stockage",
+    tagline: "Coffres et sacs à dos évolutifs, avec upgrades (tri automatique, aimant, téléportation...).",
+    summary: "Une alternative « physique » au stockage numérique : des coffres et sacs à dos que tu peux agrandir et améliorer avec des upgrades insérables (filtres, tri auto, compacteur, aimant à objets, etc). Très utilisé en early-game avant AE2/RS, et reste utile en late-game pour le tri au champ.",
+    progression: [
+      "**Sac à dos basique** : craft avec du cuir + coffre, stockage limité mais extensible.",
+      "**Upgrades** : Stack Upgrade (plus de place), Auto-Smelting, Magnet (aimante les items au sol), Pickup (auto-pickup), Void (détruit un filtre d'objets indésirables), Tank (stocke des fluides).",
+      "**Coffres sophistiqués** : version « meuble » du sac à dos, avec les mêmes upgrades, empilables visuellement dans le monde.",
+      "**Intégration Create/Storage Delight** : convoyeurs Create peuvent interagir avec les coffres sophistiqués via les addons présents sur le serveur.",
+    ],
+    craft: "Sac à dos de base = coffre + cuir en craft simple. Les upgrades s'insèrent directement dans des emplacements dédiés du sac/coffre (clic droit pour ouvrir le menu d'upgrade), pas besoin de recraft l'objet entier.",
+    tips: [
+      "Combine un **Upgrade Aimant** avec un **Upgrade Auto-Smelting** dans un sac à dos de mineur pour miner et faire fondre le minerai en même temps.",
+      "Le serveur a l'intégration Create (Sophisticated Backpacks/Storage Create Integration) : tu peux faire défiler des objets automatiquement avec des convoyeurs Create directement dans/hors des sacs.",
+    ],
+    mods_liés: ["Sophisticated Core", "Sophisticated Storage Create Integration", "Sophisticated Backpacks Create Integration", "Sophisticated Storage In Motion", "Storage Delight"],
+  },
+  {
+    id: "mekanism",
+    name: "Mekanism",
+    cat: "tech",
+    tagline: "La tech industrielle complète : énergie, gaz, produits chimiques, machines à niveaux, armures avancées.",
+    summary: "Un des piliers techniques d'ATM10 : chaînes de production de métaux enrichies (5x le minerai en osmium/steel etc.), énergie (turbines, réacteurs à fusion), gaz industriels, et du matériel avancé (jetpacks, armure Meka-Suit, téléportation par Quantum Entangloporter).",
+    progression: [
+      "**Machines de base (Tier 1)** : Enrichment Chamber, Crusher, Energized Smelter — permettent de doubler/tripler le rendement du minerai brut.",
+      "**Factory (Tier 2)** : versions « 3 emplacements en un » des machines de base, upgradables en vitesse/énergie/production.",
+      "**Digital Miner** : mine une zone automatiquement sans intervention, avec filtre d'objets.",
+      "**Production d'énergie** : Générateur à bio-carburant → Turbine à vent/eau → **Réacteur à fission** (avancé, avec risque de fusion du cœur si mal géré) → **Réacteur à fusion** (end-game, énergie quasi illimitée).",
+      "**Meka-Suit** : armure modulaire avec modules interchangeables (vol, respiration, minage de zone, bouclier...), alimentée par de l'énergie stockée dans la combinaison.",
+      "**Gaz chimiques** (Chemical Oxidizer, Infuser, etc.) : nécessaires pour les recettes avancées (ex. Osmium + Oxygène pour certains alliages).",
+    ],
+    craft: "Chaîne minerai classique : Minerai brut → Enrichment Chamber (double le minerai en « Clump ») → Energized Smelter (fond en lingot avec bonus) → Metallurgic Infuser optionnel pour améliorer encore. Toutes les machines de base nécessitent le Basic Control Circuit à fabriquer soi-même (à partir de redstone/quartz/fer selon Tier).",
+    tips: [
+      "Le **Digital Miner** est un des premiers gros objectifs : automatise le minage sans risque, essentiel avant l'auto-crafting AE2/RS.",
+      "Attention à la **fusion du cœur** d'un réacteur à fission mal refroidi : toujours avoir un système de secours (Coolant + protection) avant de le lancer à pleine puissance.",
+      "Mekanism a de nombreuses intégrations sur ce serveur (Applied Mekanistics, Mekanism Covers, Mek-Mek, Refined Storage: Mekanism Integration, Mekanistic Routers) — le stockage numérique peut piocher directement dans les gaz/énergie Mekanism.",
+    ],
+    mods_liés: ["Mekanism Generators", "Mekanism Tools", "Mekanism Covers", "Mek-Mek (mekmm)", "Mekanistic Routers", "Applied Mekanistics"],
+  },
+  {
+    id: "create",
+    name: "Create",
+    cat: "tech",
+    tagline: "L'automatisation mécanique : rouages, pistons contraptions, trains et machines rotatives visibles.",
+    summary: "Create construit de l'automatisation avec de la puissance de rotation (Rotational Force) transmise par arbres, engrenages et courroies — tout est visuellement animé. Célèbre pour ses « contraptions » (structures mobiles sur rail ou pilier) et ses trains.",
+    progression: [
+      "**Générateur de rotation** : Manivelle (manuelle), Moulin à eau, Moulin à vent — génèrent du SU (Stress Units) et de la vitesse (RPM).",
+      "**Arbres, Engrenages, Courroies** : transmettent la rotation ; un Engrenage Large change la vitesse/le stress.",
+      "**Presse mécanique, Scie mécanique, Mixer, Basin** : machines de transformation automatisées (écraser, couper, mélanger, cuire).",
+      "**Contraptions** : assembler une structure avec un Piston Mécanique ou un Bogie de train pour la faire bouger dans le monde (ascenseurs, portes, chariots).",
+      "**Trains** : rails Create + gares (Station) + Train Schedule pour du transport automatisé longue distance entre bases.",
+      "**Deployeur** : bras robotique qui reproduit une action (miner, crafter, attaquer) automatiquement.",
+    ],
+    craft: "Départ typique : Andesite Alloy (fer + zinc fondus au four, base de presque tout le mod) → Cogwheel/Shaft → premier moulin à eau pour du SU. Puis Mechanical Press/Crushing Wheels pour automatiser l'écrasement de minerai (2x le rendement, complémentaire de Mekanism).",
+    tips: [
+      "Vérifie toujours le **Stress** total du réseau (clic sur une roue avec le Goggles de Create) : trop de machines consomment plus de SU que tes générateurs n'en fournissent, tout s'arrête.",
+      "Le serveur inclut plusieurs add-ons Create (Create: Enchantment Industry, Ponder JS, Create Hypertube, Create Aquatic Ambitions, Rechiseled Create, Sophisticated Storage/Backpacks Create Integration) qui ajoutent de nouvelles machines et intégrations de stockage.",
+      "Les **Crushing Wheels** (grandes roues à pointes) doublent le rendement minerai gratuitement — un très bon complément early-game avant Mekanism.",
+    ],
+    mods_liés: ["Create: Enchantment Industry", "Create Hypertube", "Create Aquatic Ambitions", "Create Dragons Plus", "Rechiseled Create", "Ponder JS"],
+  },
+  {
+    id: "industrialforegoing",
+    name: "Industrial Foregoing",
+    cat: "tech",
+    tagline: "Machines industrielles polyvalentes : fermes automatiques, traitement de minerai, générateurs bio.",
+    summary: "Fournit des machines qui bouchent des trous de l'automatisation : fermes d'arbres/cultures automatiques, broyeur de mobs éthique (Mob Slaughter Factory... version « souls » sur ce serveur), machines de fluide/latex, et le Laser Drill pour générer du minerai sans miner.",
+    progression: [
+      "**Générateur biocarburant** : convertit des ressources organiques (bois, cultures) en énergie précoce.",
+      "**Fermes automatiques** (arbres, cultures, animaux) : version « Black Hole »/zone étendue pour couvrir de grandes surfaces.",
+      "**Laser Base + Laser Drill** : génère du minerai brut à partir d'énergie pure, aucune mine nécessaire (très puissant en late-game).",
+      "**Latex Processing Unit** : récolte du latex sur les arbres du mod pour fabriquer du caoutchouc sans tuer les cochons/moutons.",
+    ],
+    craft: "La plupart des machines nécessitent un Plastic (obtenu via une chaîne pétrole → Plastic, ou via le Latex Processing) et le Machine Frame de base — investissement modéré une fois l'énergie disponible.",
+    tips: [
+      "Le serveur a la variante **Industrial Foregoing: Souls**, qui remplace/complète le fermier de mobs par une version plus \"éthique\" — vérifie en jeu laquelle est active avant de construire une ferme de mobs.",
+      "Très complémentaire de Mekanism/Create pour boucher les trous d'automatisation (récolte, latex, minerai infini).",
+    ],
+    mods_liés: ["Industrial Foregoing: Souls"],
+  },
+  {
+    id: "immersiveengineering",
+    name: "Immersive Engineering",
+    cat: "tech",
+    tagline: "Tech « réaliste » multiblock : hauts-fourneaux, éoliennes, lignes à haute tension.",
+    summary: "Approche plus « industrielle réaliste » : machines multiblock imposantes (Blast Furnace, Arc Furnace, Metal Press), câbles électriques visibles dans le monde avec pertes en ligne, et un style visuel steampunk/usine.",
+    progression: [
+      "**Engineer's Hammer** : outil de base pour configurer les multiblocks.",
+      "**Kiln → Coke Oven → Blast Furnace** : chaîne de fonte avancée pour l'acier et alliages.",
+      "**Wire Coils** (cuivre, fer, acier, alu) : transportent l'énergie (RF) avec pertes selon la distance et le matériau — attention aux courts-circuits si mal isolés.",
+      "**Éolienne / Générateur diesel / Watermill** : sources d'énergie renouvelables du mod.",
+      "**Excavator** : mine automatiquement une veine de minerai définie par un Core Sample.",
+    ],
+    craft: "Premier craft clé : Engineer's Hammer (fer + bâton), puis le Coke Oven (briques) pour produire du coke et du créosote, base de toute la chaîne métallurgique avancée du mod.",
+    tips: [
+      "Les câbles ont de vraies **pertes d'énergie en ligne** — regrouper les machines proches d'un générateur plutôt que de transporter sur de longues distances non isolées.",
+    ],
+    mods_liés: [],
+  },
+  {
+    id: "modernindustrialization",
+    name: "Modern Industrialization & Industrialization Overdrive",
+    cat: "tech",
+    tagline: "Tech façon GregTech allégé : câbles/tuyaux typés, machines multiblock, terminal industriel.",
+    summary: "Modern Industrialization (MI) est une chaîne technologique par paliers de voltage/tiers, façon GregTech mais plus accessible. **Industrialization Overdrive** est un addon qui ajoute des multiblocks et fonctionnalités avancées par-dessus MI — c'est justement l'un des 3 mods qui a causé le décalage de version client/serveur récemment (voir l'incident du 21/09).",
+    progression: [
+      "**Bronze Age** : premiers fours/machines manuelles ou à faible voltage (LV).",
+      "**Paliers de voltage** (LV → MV → HV → EV...) : chaque tier de machine nécessite le composant électronique du palier (câbles, circuits) et consomme plus d'énergie mais va plus vite.",
+      "**Multiblocks Overdrive** : structures avancées ajoutées par Industrialization Overdrive pour automatiser à grande échelle une fois le MV/HV atteint.",
+      "**Terminal Mode (canal réseau `modify_terminal_mode`)** : Overdrive ajoute une interface de terminal pour configurer ses multiblocks — nécessite que client et serveur aient exactement la même version du mod.",
+    ],
+    craft: "Commence toujours par un Bronze Furnace/Macerator en LV avant de grimper les paliers de voltage — ne pas sauter d'étage sous peine de griller les machines (survoltage).",
+    tips: [
+      "⚠️ Ce mod (et son addon Overdrive) évoluent vite : si tu changes de version de pack, vérifie toujours que serveur et client sont alignés, sinon la connexion est refusée (cf. l'incident réglé le 21/09/2026).",
+    ],
+    mods_liés: ["Extended Industrialization", "Tesseract API", "AppFlux"],
+  },
+  {
+    id: "arsnouveau",
+    name: "Ars Nouveau",
+    cat: "magie",
+    tagline: "La magie « à la carte » : construis tes propres sorts glyphe par glyphe.",
+    summary: "Le pilier magique d'ATM10 avec Neo Vitae. Ars Nouveau permet de créer des sorts en assemblant des glyphes (forme + effet + augmentation) dans un Carnet de Sorts (Spellbook), sans code — un vrai système de programmation visuelle pour la magie.",
+    progression: [
+      "**Novice Spellbook** : premier carnet, débloque les glyphes de base (Projectile, Touch, Self).",
+      "**Sources et Wixie/Drygmy** : familiers passifs qui automatisent la récolte de ressources magiques.",
+      "**Arcane Pedestal + Enchanting Apparatus** : enchantement magique alternatif aux tables classiques.",
+      "**Glyph Press + Codex** : fabrique de nouveaux glyphes de sorts et permet d'apprendre/rechercher les recettes.",
+      "**Rituels** : effets à zone/temps via des pierres de rituel, pour de l'automatisation passive (récolte, protection...).",
+    ],
+    craft: "Le Novice Spellbook se fabrique avec un livre + Source Gem (obtenue en brisant des Source Berry Bush ou trouvée en exploration). Ensuite construire une Arcane Pedestal et Enchanting Apparatus pour progresser vers les glyphes avancés.",
+    tips: [
+      "Le serveur a énormément d'addons Ars Nouveau (Ars Elemental, Ars Additions, Ars Technica, Ars Creo, Ars Ocultas, Ars Polymorphia, Ars Controle, Ars Unification, Ars Elemancy) — chacun ajoute de nouveaux glyphes, familiers ou intégrations (ex. Ars Technica = intégration tech avec AE2/Mekanism).",
+      "Combine avec **Curios** pour porter des amulettes de sorts sans occuper la main.",
+    ],
+    mods_liés: ["Ars Elemental", "Ars Additions", "Ars Technica", "Ars Creo", "Ars Ocultas", "Ars Polymorphia", "Ars Controle", "Ars Unification", "Ars Elemancy", "Not Enough Glyphs"],
+  },
+  {
+    id: "neovitae",
+    name: "Neo Vitae",
+    cat: "magie",
+    tagline: "La magie du sang (blood magic) : autels de rituel, runes et Essentia Vitae.",
+    summary: "Successeur spirituel de Blood Magic : tu convertis ta vie/le sang de créatures en Essentia Vitae (LP), stockée et utilisée pour rituels, runes et objets magiques puissants. Un des 3 mods responsables du récent incident de connexion (versions désynchronisées serveur/client).",
+    progression: [
+      "**Autel de sang (Blood Altar)** : bloc central, tu y verses ta vie (auto-sacrifice avec un couteau ou via un mob) pour remplir un réservoir d'Essentia Vitae.",
+      "**Runes** : à placer autour de l'autel pour augmenter capacité, vitesse, efficacité (le mod inclut vitesse, sacrifice, auto-sacrifice, déplacement, capacité, capacité augmentée, orbe, accélération, charge, efficacité — en version simple et « augmentée »).",
+      "**Rituels** : effets de zone alimentés par l'Essentia Vitae stockée, pour de la téléportation, protection, culture accélérée...",
+      "**Injecteur / Drain de vie** : sacrifie automatiquement des mobs à proximité pour remplir l'autel sans intervention manuelle.",
+    ],
+    craft: "Le Blood Altar de base se fabrique avec des lingots (fer selon la version) en structure simple ; le sacrifice initial se fait au couteau rituel (clic droit sur soi-même, attention aux dégâts). Empiler des Runes de Capacité autour de l'autel avant de viser des rituels avancés.",
+    tips: [
+      "⚠️ Ce mod a **changé de canaux réseau entre les versions récentes** (0.7.x → 0.8.x côté client cassé récemment) — toujours vérifier que ta version de launcher correspond à celle du serveur avant de te connecter.",
+      "Ne pas négliger les runes de **Capacité** tôt : un petit autel se vide vite si tu enchaînes les rituels gourmands.",
+    ],
+    mods_liés: [],
+  },
+  {
+    id: "occultism",
+    name: "Occultism",
+    cat: "magie",
+    tagline: "Invoque des esprits et démons familiers pour miner, cultiver et combattre à ta place.",
+    summary: "Magie d'invocation : tu rituelises pour faire apparaître des esprits (Spirits) liés à un Familiar Ring, qui deviennent des ouvriers automatiques (mineurs, bûcherons, gardes, transporteurs) une fois installés dans des cadres dédiés.",
+    progression: [
+      "**Table de rituel (Magic Circle)** : sert à invoquer les premiers esprits avec des ingrédients + un sacrifice.",
+      "**Familiar Ring** : lie un esprit à toi, il peut ensuite être assigné à un poste (Spirit Fire, Storage Controller Frame, Miner Frame...).",
+      "**Otherworld** : dimension annexe où certains esprits travaillent (mine, ferme) sans risque pour le joueur.",
+      "**Foliot / Afrit / Djinn** : tiers d'esprits croissants en puissance et complexité d'invocation.",
+    ],
+    craft: "Premier rituel = Magic Circle (craie/matériaux de base) + un sacrifice d'objets spécifiques au premier esprit visé (Foliot). Consulter le livre de recherche (Spirit Attunement) inclus dans le mod pour la liste précise.",
+    tips: [
+      "Ce mod a son propre pack d'intégration KubeJS sur le serveur (Occultism KubeJS) — les recettes peuvent avoir été légèrement modifiées par rapport au mod vanilla.",
+    ],
+    mods_liés: ["Occultism KubeJS"],
+  },
+  {
+    id: "theurgy",
+    name: "Theurgy",
+    cat: "magie",
+    tagline: "Alchimie ésotérique : distillation, cristaux astraux et rituels de laboratoire.",
+    summary: "Système d'alchimie orienté laboratoire : distillation de liquides, cristaux astraux pour catalyser des rituels, et une esthétique très « cabinet de curiosités ». Complète bien Ars Nouveau et Neo Vitae dans une base orientée magie.",
+    progression: [
+      "**Alambic (Distillation Tower)** : transforme des liquides de base en essences alchimiques.",
+      "**Table de rituel astrale** : consomme des cristaux chargés sous certaines conjonctions pour des effets puissants.",
+    ],
+    craft: "Démarre par la collecte de Volatus Essentia (récolté sur certaines plantes/mobs) à distiller dans l'Alambic — se référer au Grimoire du mod en jeu pour la liste des recettes, très axées découverte.",
+    tips: ["Intégration KubeJS présente sur le serveur (Theurgy KubeJS) : certaines recettes peuvent différer du mod vanilla."],
+    mods_liés: ["Theurgy KubeJS"],
+  },
+  {
+    id: "computercraft",
+    name: "CC: Tweaked & Advanced Peripherals",
+    cat: "automatisation",
+    tagline: "Programme des ordinateurs et tourelles en Lua pour automatiser tout le reste.",
+    summary: "CC: Tweaked ajoute des ordinateurs et tourelles programmables en Lua. Advanced Peripherals ajoute des dizaines de périphériques branchables (capteurs de bloc, manipulateurs d'inventaire, détecteurs de joueurs, etc.) pour que tes scripts interagissent avec le monde et les autres mods (AE2, Mekanism, Create...).",
+    progression: [
+      "**Ordinateur / Tourelle** : bloc de base, se programme en Lua via son propre éditeur ou un fichier externe.",
+      "**Modem sans fil / filaire** : connecte plusieurs ordinateurs en réseau (rednet).",
+      "**Périphériques Advanced Peripherals** : Geo Scanner, Environment Detector, Player Detector, Energy Detector, Inventory Manager... se placent à côté de l'ordinateur et s'appellent depuis le script Lua (`peripheral.find(...)`).",
+      "**Intégration ME Bridge** : périphérique qui connecte un ordinateur directement au réseau AE2, pour scripter du crafting automatique piloté par code.",
+    ],
+    craft: "L'ordinateur de base se fabrique avec verre + pierre + redstone + lingot d'or. Les périphériques Advanced Peripherals nécessitent généralement des composants redstone + le composant spécifique du mod tiers concerné (ex. le ME Bridge a besoin de pièces AE2).",
+    tips: [
+      "⚠️ Advanced Peripherals fait partie des mods qui ont changé de canal réseau récemment (`retrieveusername`) — vérifie la version installée si un ami ne peut pas se connecter (voir l'incident du 21/09/2026).",
+      "Le serveur inclut aussi **MoreRed CCT-Compat** (intégration avec le mod redstone MoreRed) et **Integrated Scripting/Terminals/Tunnels/Dynamics** pour une automatisation logique alternative sans forcément coder en Lua.",
+    ],
+    mods_liés: ["MoreRed CCT-Compat", "Integrated Dynamics", "Integrated Scripting", "Integrated Terminals", "Integrated Tunnels", "Integrated Crafting"],
+  },
+  {
+    id: "yungs",
+    name: "Suite Yung's (structures)",
+    cat: "exploration",
+    tagline: "Redonne du relief et du contenu aux structures vanilla : donjons, forteresses, temples, mines.",
+    summary: "La suite complète de mods Yung's présente sur le serveur retravaille quasiment toutes les structures vanilla pour les rendre plus grandes, plus variées et plus intéressantes à explorer, avec du loot amélioré.",
+    progression: [
+      "**Better Dungeons / Mineshafts / Strongholds** : versions agrandies et diversifiées des structures d'origine.",
+      "**Better Desert/Jungle Temples, Ocean Monuments, Witch Huts, Nether Fortresses, End Island** : couvrent quasiment tous les biomes/dimensions.",
+      "**YUNG's Extras + API** : dépendances communes partagées par tous les mods de la suite (nécessaires, ne rien enlever).",
+    ],
+    craft: "Aucun craft — génération de monde passive, s'applique automatiquement à un nouveau monde ou de nouveaux chunks générés.",
+    tips: ["Ces structures ne réécrivent que les **nouveaux chunks** — sur un monde déjà bien exploré, il faudra s'aventurer plus loin pour en profiter pleinement."],
+    mods_liés: ["Yung's API", "Yung's Extras"],
+  },
+  {
+    id: "twilightforest",
+    name: "Twilight Forest",
+    cat: "exploration",
+    tagline: "Dimension complète avec ses propres boss, donjons et progression.",
+    summary: "Une dimension annexe classique et massive : forêt magique avec ses propres biomes, boss progressifs (Naga, Lich, Ur-Ghast, Hydra...) et équipement unique, accessible via un portail construit au sol (pas de Nether Star nécessaire).",
+    progression: [
+      "**Portail** : se construit avec un cadre de fleurs et de l'eau versée au centre en forme de croix.",
+      "**Progression par boss** : chaque boss vaincu débloque l'accès à de nouvelles zones (le Lich Tower nécessite d'avoir vaincu le Naga et le Minoshroom, etc.).",
+    ],
+    craft: "Le portail nécessite : creuser une croix de 2 blocs de profondeur, la remplir de fleurs sur les bords, verser de l'eau au centre.",
+    tips: ["Dimension jouable en coop, avec du matériel unique qui vaut le détour même sans viser le end-game du mod."],
+    mods_liés: [],
+  },
+  {
+    id: "minecolonies",
+    name: "MineColonies",
+    cat: "exploration",
+    tagline: "Construis et gère une colonie de villageois avec métiers, bâtiments et défense automatisée.",
+    summary: "Simulation de gestion de ville : place un Hôtel de Ville, recrute des colons, assigne des métiers (bûcheron, mineur, forgeron, garde...) et laisse-les construire/produire pour toi selon des plans (schematics) pré-conçus ou personnalisés.",
+    progression: [
+      "**Town Hall (Supply Camp puis Town Hall)** : bâtiment central, définit le rayon de la colonie.",
+      "**Bâtiments de métier** : chaque métier a son propre bâtiment (Baker's Hut, Miner's Mine, Guard Tower...) à construire puis faire évoluer en niveaux (jusqu'à 5).",
+      "**Colons** : recrutés automatiquement ou via un Recruteur, à assigner aux bâtiments/métiers.",
+      "**Style de colonie** : Structurize + Blockly permettent de personnaliser l'apparence des bâtiments générés.",
+    ],
+    craft: "Le Supply Camp/Chest de départ s'obtient gratuitement en early-game (kit de démarrage), à placer pour lancer la colonie — pas de craft classique pour l'Hôtel de Ville lui-même.",
+    tips: ["Le serveur a l'addon **Style Colonies** pour des styles de bâtiments supplémentaires, et dépend de **Structurize/BlockUI** pour l'interface de gestion."],
+    mods_liés: ["Structurize", "BlockUI", "Style Colonies", "Domum Ornamentum"],
+  },
+  {
+    id: "apotheosis",
+    name: "Apotheosis",
+    cat: "mobs",
+    tagline: "Enchantements affixes, gemmes et donjons infinis — améliore drastiquement le loot et le combat.",
+    summary: "Refond le système d'enchantement et de loot : enchantements au-delà du niveau 30 possibles, affixes aléatoires sur les objets rares (façon RPG à la Diablo), gemmes socketables, et des donjons générés procéduralement (Gemcutting, Infinite Dungeons).",
+    progression: [
+      "**Table d'enchantement améliorée** : permet de dépasser le niveau 30 avec assez d'XP et de lapis.",
+      "**Reforging** (Enchanter forgeron) : reroll les enchantements d'un objet.",
+      "**Gemmes** : trouvées en loot ou craftées, s'insèrent dans des objets pour des bonus supplémentaires (Apothic Enchanting/Attributes).",
+      "**Spawners améliorés** : les spawners vanilla loot des objets et peuvent être capturés/déplacés (Apothic Spawners).",
+    ],
+    craft: "Pas de craft central — le mod modifie les systèmes existants (enchantement, spawners, loot) plutôt que d'ajouter une nouvelle chaîne de production.",
+    tips: ["Attention : les objets \"affixed\" (avec des affixes aléatoires) peuvent être bien plus puissants que l'équipement normal — grande source de progression de combat en milieu/fin de partie."],
+    mods_liés: ["Apothic Attributes", "Apothic Enchanting", "Apothic Spawners"],
+  },
+  {
+    id: "irons_spellbooks",
+    name: "Iron's Spells 'n Spellbooks",
+    cat: "magie",
+    tagline: "Magie de combat façon RPG : écoles de sorts, classes, et grimoires à level up.",
+    summary: "Système de magie orienté combat/PvE avec des écoles élémentaires (feu, glace, foudre, poison, nature...), des grimoires qui montent de niveau, et des classes de personnage. Bonne alternative/complément à Ars Nouveau pour du combat magique direct.",
+    progression: [
+      "**Grimoire de base** : se trouve en loot ou se craft selon la config du pack, débloque les premiers sorts.",
+      "**Écoles de magie** : chaque école (Fire, Ice, Lightning, Blood, Nature, Eldritch...) a ses propres sorts et son propre stat de puissance.",
+      "**Classe** : choix d'une classe au départ qui influence les bonus de statistiques.",
+    ],
+    craft: "Se référer au livre de guide inclus en jeu (Patchouli) pour les recettes précises, qui varient selon la configuration du modpack.",
+    tips: [],
+    mods_liés: [],
+  },
+];
+
+const ALL_MODS = [
+["Advanced Peripherals","automatisation"],["AE2 Network Analyzer","stockage"],["AI Improvements","mobs"],
+["Ad Astra (+ addon Giselle)","exploration"],["Additional Enchanted Miner","tech"],["Advanced AE","stockage"],
+["Akashic Tome","qol"],["Apotheosis","mobs"],["Apothic Attributes","mobs"],["Apothic Enchanting","mobs"],
+["Apothic Spawners","mobs"],["Applied Mekanistics","tech"],["Applied Flux","stockage"],["Aquaculture","agriculture"],
+["Brandon's Core","qol"],["Bridging Mod","qol"],["Byzantine","deco"],["Cloud Glass","deco"],["Clumps","qol"],
+["CodeChickenLib","qol"],["Construction Sticks","qol"],["CorgiLib","qol"],["Create: Dragons Plus","tech"],
+["Creeper Overhaul","mobs"],["Cucumber","qol"],["DimStorage","stockage"],["Draconic Evolution","tech"],
+["DungeonCrawl","exploration"],["Dungeons Arise","exploration"],["EdivadLib","qol"],["EnderStorage","stockage"],
+["Explorer's Compass","exploration"],["Explorify","exploration"],["Extended AE","stockage"],["Extra Disks","stockage"],
+["ExtraStorage","stockage"],["Extreme Reactors 2","tech"],["Farmer's Delight","agriculture"],["Fast Furnace","tech"],
+["FastSuite","tech"],["Flux Networks","tech"],["Framed Blocks","deco"],["Gateways to Eternity","mobs"],
+["Glassential","deco"],["Glodium","tech"],["Gravitational Modulating Additional Unit (GMAU)","tech"],
+["Hellish Trials","mobs"],["Hostile Neural Networks","mobs"],["Immersive Energistics","tech"],
+["Immersive Engineering","tech"],["Iron Jetpacks","tech"],["Jade (HWYLA)","qol"],["L'Ender's Cataclysm","mobs"],
+["Measurements","qol"],["Mekanism","tech"],["Mekanism Generators","tech"],["Mekanism Tools","tech"],
+["Modern Dynamics","tech"],["Modern Industrialization","tech"],["Modular Bees","agriculture"],
+["Moog's End Structures","exploration"],["Moog's Nether Structures","exploration"],["Moog's Soaring Structures","exploration"],
+["Moog's Structure Lib","exploration"],["Moog's Voyager Structures","exploration"],["MoreRed: CCT Compat","automatisation"],
+["Mystical Agradditions","agriculture"],["Mystical Agriculture","agriculture"],["Mystical Customization","qol"],
+["Nature's Aura","magie"],["Nature's Compass","exploration"],["No Chat Reports","qol"],["Nullscape","exploration"],
+["OctoLib","qol"],["Oh The Biomes We've Gone","exploration"],["Oh The Trees You'll Grow","agriculture"],
+["OpenLoader","qol"],["Patchouli","qol"],["Placebo","qol"],["Powah","tech"],["Roots Classic","magie"],
+["Scalable Cat's Force","qol"],["Simple Backups","qol"],["SmartBrainLib","qol"],["Structory","exploration"],
+["Structory Towers","exploration"],["Super Factory Manager (SFM)","automatisation"],["TerraBlender","qol"],
+["The Undergarden","exploration"],["ToolBelt","qol"],["Underground Villages","exploration"],
+["Wither Skeleton Tweaks","mobs"],["Yung's API","exploration"],["Yung's Better Desert Temples","exploration"],
+["Yung's Better Dungeons","exploration"],["Yung's Better End Island","exploration"],["Yung's Better Jungle Temples","exploration"],
+["Yung's Better Mineshafts","exploration"],["Yung's Better Nether Fortresses","exploration"],
+["Yung's Better Ocean Monuments","exploration"],["Yung's Better Strongholds","exploration"],
+["Yung's Better Witch Huts","exploration"],["Yung's Extras","exploration"],["ZeroCore 2","tech"],
+["SecurityCraft","tech"],["Choice of the Void (ctov)","exploration"],["Accelerated Decay","qol"],
+["Actually Additions","tech"],["Ad Astra","exploration"],["Additional Lights","deco"],["AE2CT","stockage"],
+["AE2 Import Export Card","stockage"],["AE2 JEI Integration","stockage"],["AE2 Wireless Terminal (ae2wtlib)","stockage"],
+["AE Infinity Booster","stockage"],["Aether","exploration"],["All the Arcanist Gear","magie"],
+["All the Compressed","qol"],["All the Leaks","qol"],["Allthemodium","tech"],["All the Ores","tech"],
+["All the Tweaks","qol"],["All the Wizard Gear","magie"],["Almost Unified","qol"],["Amendments","qol"],
+["Applied Energistics 2","stockage"],["Architectury API","qol"],["Ars Additions","magie"],["Ars Controle","magie"],
+["Ars Creo","magie"],["Ars Elemancy","magie"],["Ars Elemental","magie"],["Ars Nouveau","magie"],
+["Ars Ocultas","magie"],["Ars Polymorphia","magie"],["Ars Technica","magie"],["Ars Unification","magie"],
+["ArsEng","tech"],["Artifacts","magie"],["Athena","qol"],["Atlas API","qol"],["AttributeFix","qol"],
+["Auroral","exploration"],["Balm","qol"],["Baubley Heart Canisters","magie"],["Bells and Whistles","deco"],
+["Better Advanced Tooltips","qol"],["Better Compatibility Checker","qol"],["BiblioBiomes","exploration"],
+["BiblioCraft","deco"],["BiblioWoods","deco"],["BlockUI","qol"],["Blue Flame","deco"],["Bookshelf","qol"],
+["BotanyPots","agriculture"],["BotanyPots: Mystical Agriculture","agriculture"],["BotanyTrees","agriculture"],
+["Building Gadgets 2","deco"],["Cable Tiers","stockage"],["Caelus API","qol"],["Camol","deco"],
+["CC: Tweaked (ComputerCraft)","automatisation"],["Charging Gadgets","tech"],["Chipped","deco"],
+["Chisel","deco"],["Chromacarvings","deco"],["Cleanswing","qol"],["Cloth Config API","qol"],
+["Cobblegen Galore","tech"],["Cobweb","qol"],["Comforts","qol"],["Common Storage Lib","stockage"],
+["Common Capabilities","qol"],["Compact Machines","tech"],["Connected Glass","deco"],["Connectivity","tech"],
+["Cooking for Blockheads","agriculture"],["Cosmetic Armor Reworked","qol"],["Crafting on a Stick","qol"],
+["Crafting Tweaks","qol"],["Crash Utilities","qol"],["Create","tech"],["Create: Enchantment Industry","tech"],
+["Create Aquatic Ambitions","tech"],["Create Hypertube","tech"],["Create Addition","tech"],["CristelLib","qol"],
+["Cryonic Config","qol"],["Crystalix","magie"],["Cupboard","qol"],["Curios API","qol"],["Cyclops Core","qol"],
+["Deeper and Darker","exploration"],["Deimos","qol"],["Disenchanting Table","qol"],["Domum Ornamentum","deco"],
+["Dummmmmmy","qol"],["Dyenamics","deco"],["Dyenamics and Friends","deco"],["Dyson Cube Project","tech"],
+["Easy Villagers","qol"],["Elevator ID","deco"],["Ender Drives","stockage"],["EnderIO","tech"],
+["Enderman Overhaul","mobs"],["Energy Meter","tech"],["Entangled","stockage"],["Eternal Starlight","exploration"],
+["Everything Copper","deco"],["Evilcraft","magie"],["Expanded AE","stockage"],["ExperienceLib","qol"],
+["Extended Industrialization","tech"],["Factory Blocks","deco"],["Farming for Blockheads","agriculture"],
+["FerriteCore","qol"],["Fireproof Boats","qol"],["Flicker Fix","qol"],["Forbidden and Arcanus","magie"],
+["Formations","exploration"],["Formations: Nether","exploration"],["Formations: Overworld","exploration"],
+["Framework","qol"],["FTB Chunks","qol"],["FTB Essentials","qol"],["FTB Filter System","qol"],
+["FTB JEI Extras","qol"],["FTB Library","qol"],["FTB Quests","qol"],["FTB Ranks","qol"],["FTB Teams","qol"],
+["FTB Ultimine","qol"],["FTB Cross-Mod Compat","qol"],["FTB Quests Lang Splitter","qol"],["Fuel Goes Here","tech"],
+["Functional Storage","stockage"],["Fusion","qol"],["Fzzy Config","qol"],["GeckoLib","qol"],
+["Generator Galore","tech"],["Get It Together, Drops!","qol"],["GuideMe","qol"],["Handcrafted","deco"],
+["Hardened Armadillos","mobs"],["Herbs and Harvest","agriculture"],["Hey, Berry! Shut Up!","qol"],
+["Ice and Fire","mobs"],["Illager Warship","exploration"],["I'm Fast","qol"],["InControl","qol"],
+["Industrial Foregoing: Souls","tech"],["Industrial Foregoing","tech"],["Industrialization Overdrive","tech"],
+["Integrated Crafting","automatisation"],["Integrated Dynamics","automatisation"],["Integrated Scripting","automatisation"],
+["Integrated Terminals","automatisation"],["Integrated Tunnels","automatisation"],
+["Interdimensional Wireless Transmitter","tech"],["Invasive Opts","qol"],["Inventory Tweaks","qol"],
+["Iron Furnaces","tech"],["Iron's Jewelry","magie"],["Iron's Lib","qol"],["Iron's Spells 'n Spellbooks","magie"],
+["Item Collectors","qol"],["JEArchaeology","exploration"],["JEI (Just Enough Items)","qol"],["JourneyMap","qol"],
+["Jumpboat","qol"],["Jupiter","exploration"],["Just Dire Things","magie"],["Just Enough Breeding","agriculture"],
+["Konkrete","qol"],["Kotlin for Forge","qol"],["KubeJS","qol"],["KubeJS Tweaks","qol"],["Laser Bridges","tech"],
+["LaserIO","tech"],["Lionfish API","qol"],["Lithostitched","exploration"],["Little Big Redstone","automatisation"],
+["Living Things","mobs"],["LMFT","qol"],["Logistics Networks","stockage"],["Lootr","exploration"],
+["Luminax","deco"],["Mahoutsukai","magie"],["MCJtyLib","qol"],["MCW: Bridges","deco"],["MCW: Doors","deco"],
+["MCW: Furniture","deco"],["MCW: Holidays","deco"],["MCW: Lights","deco"],["MCW: Fences","deco"],
+["MCW: Paths","deco"],["MCW: Stairs","deco"],["MCW: Windows","deco"],["MCW: Roofs","deco"],
+["MCW: Trapdoors","deco"],["MEGACells","stockage"],["Mekanism Covers","tech"],["Mekanistic Routers","tech"],
+["Mek-Mek","tech"],["Melody","qol"],["Memory Settings","qol"],["ME Requester","stockage"],["Merrymaking","deco"],
+["MFFS","tech"],["Mifa","qol"],["MineColonies","exploration"],["Mining Gadgets","tech"],
+["Mob Grinding Utils","mobs"],["ModernFix","qol"],["Modonomicon","qol"],["Modular Routers","automatisation"],
+["MonoLib","qol"],["Moonlight Lib","qol"],["More Dragon Eggs","mobs"],["MoreRed","automatisation"],
+["Moog's Structures","exploration"],["Multipiston","tech"],["Neo Vitae","magie"],["Nether Portal Fix","qol"],
+["Not Enough Glyphs","magie"],["No Villager Death Message","qol"],["Observable","qol"],["Occultism","magie"],
+["Occultism KubeJS","magie"],["OmegaConfig","qol"],["Oritech","tech"],["Overlapless","deco"],["OwO Lib","qol"],
+["Pam's HarvestCraft 2: Crops","agriculture"],["Pam's HarvestCraft 2: Food Core","agriculture"],
+["Pam's HarvestCraft 2: Food Extended","agriculture"],["Pam's HarvestCraft 2: Trees","agriculture"],
+["Pipez","tech"],["Player Animation Lib","qol"],["Playit Companion","qol"],["Pneumaticcraft: Repressurized","tech"],
+["Pocket Storage","stockage"],["Poly Engineering","tech"],["PolyLib","qol"],["Polymorph","qol"],
+["Ponder JS","qol"],["Potions Master","magie"],["Prickle","qol"],["Productive Bees","agriculture"],
+["Productive Metalworks","tech"],["Productive Trees","agriculture"],["Pylons","magie"],["Railcraft Reborn","tech"],
+["Ranged Pumps","tech"],["Rechiseled","deco"],["Rechiseled: Chipped","deco"],["Rechiseled Create","deco"],
+["Redstone Pen","automatisation"],["Refined Types","stockage"],["Refined Storage: Curios Integration","stockage"],
+["Refined Storage: JEI Integration","stockage"],["Refined Storage: Mekanism Integration","stockage"],
+["Refined Storage","stockage"],["Refined Storage: Quartz Arsenal","stockage"],["Refurbished Furniture","deco"],
+["Regions Unexplored","exploration"],["Relics","magie"],["Reliquary","magie"],["Reliquified Artifacts","magie"],
+["Repeatable Trial Vaults","exploration"],["Repurposed Structures","exploration"],["Resourceful Config","qol"],
+["Resourceful Lib","qol"],["Restrictions","qol"],["RFTools Base","tech"],["RFTools Builder","tech"],
+["RFTools Power","tech"],["RFTools Storage","stockage"],["RFTools Utility","tech"],["Rhino","qol"],
+["Sawmill","tech"],["Silent Gear: Metalworks","tech"],["Shiny","qol"],["Shrink","qol"],["Silent Gear","tech"],
+["Silent Lib","qol"],["Silent Gems","magie"],["Simple Magnets","qol"],["Simply Light","deco"],
+["Solcarrot","agriculture"],["Sophisticated Backpacks","stockage"],
+["Sophisticated Backpacks: Create Integration","stockage"],["Sophisticated Core","stockage"],
+["Sophisticated Storage","stockage"],["Sophisticated Storage: Create Integration","stockage"],
+["Sophisticated Storage in Motion","stockage"],["Soulplied Energistics","stockage"],["Spark","qol"],
+["Starbuncle Mania","magie"],["Stepcrafter","qol"],["Steve's Carts","tech"],["Storage Delight","stockage"],
+["Structurize","exploration"],["Style Colonies","exploration"],["Supermartijn642's Config Lib","qol"],
+["Supermartijn642's Core Lib","qol"],["Supplementaries","deco"],["Sushi Go Crafting","agriculture"],
+["Sussy Sniffers","mobs"],["Trains & Tracks","exploration"],["Tempad","tech"],["Tesseract API","tech"],
+["The Bumblezone","exploration"],["Theurgy","magie"],["Theurgy KubeJS","magie"],["Time in a Bottle (TiaB)","qol"],
+["Titanium","qol"],["Tombstone","qol"],["Torchmaster","tech"],["TownTalk","qol"],["Transfer Labels","qol"],
+["Trash Cans","qol"],["TrashSlot","qol"],["Treetap","agriculture"],["Trophy Manager","qol"],
+["Twilight Forest","exploration"],["Universal Grid","tech"],["Uranus","exploration"],["Utilitarian","agriculture"],
+["Utility Belt Vest","qol"],["Valhelsia Core","qol"],["Variants and Ventures","exploration"],
+["Villages and Pillages","exploration"],["Waystones","exploration"],["Wireless Chargers","tech"],
+["Wits","magie"],["XNet","tech"],["XTones Reworked","qol"],["Xycraft Core","tech"],["Xycraft Machines","tech"],
+["Xycraft Override","tech"],["Xycraft World","tech"],["Yet Another Config Lib (YACL)","qol"],
+];
+
+(function(){
+  "use strict";
+
+  var catMap = {};
+  CATEGORIES.forEach(function(c){ catMap[c.id] = c; });
+
+  var state = { query: "", activeCats: new Set() };
+
+  document.getElementById("stat-total").textContent = ALL_MODS.length;
+
+  function iconSvg(path, size){
+    return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="'+path+'"/></svg>';
+  }
+
+  var chipsEl = document.getElementById("cat-filters");
+  CATEGORIES.forEach(function(cat){
+    var count = ALL_MODS.filter(function(m){ return m[1] === cat.id; }).length;
+    var chip = document.createElement("div");
+    chip.className = "cat-chip";
+    chip.style.setProperty("--cat-color", "var(--tag-"+cat.id+")");
+    chip.dataset.cat = cat.id;
+    chip.dataset.active = "false";
+    chip.innerHTML = iconSvg(cat.icon, 13) + '<span>'+cat.label+'</span><span class="count">'+count+'</span>';
+    chip.addEventListener("click", function(){
+      if(state.activeCats.has(cat.id)){ state.activeCats.delete(cat.id); chip.dataset.active="false"; }
+      else { state.activeCats.add(cat.id); chip.dataset.active="true"; }
+      render();
+    });
+    chipsEl.appendChild(chip);
+  });
+
+  var featureGrid = document.getElementById("feature-grid");
+  var featuredById = {};
+  FEATURED.forEach(function(f){ featuredById[f.id] = f; });
+
+  function renderFeatured(){
+    var q = state.query.toLowerCase();
+    var list = FEATURED.filter(function(f){
+      var matchCat = state.activeCats.size === 0 || state.activeCats.has(f.cat);
+      var matchQuery = !q || (f.name.toLowerCase().indexOf(q) !== -1 || f.tagline.toLowerCase().indexOf(q) !== -1);
+      return matchCat && matchQuery;
+    });
+    document.getElementById("featured-section").hidden = list.length === 0;
+    featureGrid.innerHTML = "";
+    list.forEach(function(f){
+      var cat = catMap[f.cat];
+      var card = document.createElement("button");
+      card.type = "button";
+      card.className = "feature-card";
+      card.style.setProperty("--cat-color", "var(--tag-"+f.cat+")");
+      card.innerHTML = '<span class="tag">'+cat.label+'</span><h3>'+f.name+'</h3><p>'+f.tagline+'</p>';
+      card.addEventListener("click", function(){ openDetail(f.id); });
+      featureGrid.appendChild(card);
+    });
+  }
+
+  var indexEl = document.getElementById("mods-index");
+  var emptyEl = document.getElementById("empty-state");
+
+  function renderIndex(){
+    var q = state.query.toLowerCase();
+    var list = ALL_MODS.filter(function(m){
+      var matchCat = state.activeCats.size === 0 || state.activeCats.has(m[1]);
+      var matchQuery = !q || m[0].toLowerCase().indexOf(q) !== -1;
+      return matchCat && matchQuery;
+    });
+    document.getElementById("index-count-hint").textContent = list.length + " / " + ALL_MODS.length;
+    indexEl.innerHTML = "";
+    emptyEl.hidden = list.length !== 0;
+    indexEl.style.display = list.length === 0 ? "none" : "block";
+
+    list.sort(function(a,b){ return a[0].localeCompare(b[0], 'fr'); });
+
+    list.forEach(function(m){
+      var cat = catMap[m[1]];
+      var row = document.createElement("div");
+      row.className = "mods-row";
+      row.style.setProperty("--cat-color", "var(--tag-"+m[1]+")");
+      var featuredMatch = FEATURED.find(function(f){ return f.name.toLowerCase() === m[0].toLowerCase(); });
+      row.innerHTML = '<span class="dot"></span><span class="name">'+m[0]+(featuredMatch ? ' <span class="mono" style="font-size:11px;color:var(--gold)">→ fiche</span>' : '')+'</span><span class="cat-label">'+cat.label+'</span>';
+      if(featuredMatch){
+        row.style.cursor = "pointer";
+        row.addEventListener("click", function(){ openDetail(featuredMatch.id); });
+      }
+      indexEl.appendChild(row);
+    });
+  }
+
+  function render(){ renderFeatured(); renderIndex(); }
+
+  var searchInput = document.getElementById("search");
+  var searchCount = document.getElementById("search-count");
+  searchInput.addEventListener("input", function(){
+    state.query = searchInput.value;
+    render();
+    searchCount.textContent = state.query ? "recherche active" : "";
+  });
+
+  var overlay = document.getElementById("overlay");
+  var detailCard = document.getElementById("detail-card");
+
+  function openDetail(id){
+    var f = featuredById[id];
+    if(!f) return;
+    var cat = catMap[f.cat];
+    var html = '';
+    html += '<div class="detail-head" style="--cat-color:var(--tag-'+f.cat+')">';
+    html += '<button class="detail-close" id="detail-close-btn">✕</button>';
+    html += '<span class="tag">'+cat.label+'</span>';
+    html += '<h2>'+f.name+'</h2>';
+    html += '<p class="tagline">'+f.tagline+'</p>';
+    html += '</div>';
+    html += '<div class="detail-body" style="--cat-color:var(--tag-'+f.cat+')">';
+    html += '<h4>En bref</h4><p>'+f.summary+'</p>';
+    if(f.progression && f.progression.length){
+      html += '<h4>Comment progresser</h4><ol class="prog-list">';
+      f.progression.forEach(function(step){ html += '<li>'+mdBold(step)+'</li>'; });
+      html += '</ol>';
+    }
+    if(f.craft){
+      html += '<h4>Premier craft à viser</h4><div class="craft-box">'+mdBold(f.craft)+'</div>';
+    }
+    if(f.tips && f.tips.length){
+      html += '<h4>Astuces</h4><ul class="tip-list">';
+      f.tips.forEach(function(t){ html += '<li>'+mdBold(t)+'</li>'; });
+      html += '</ul>';
+    }
+    if(f.mods_liés && f.mods_liés.length){
+      html += '<h4>Mods liés sur ce serveur</h4><div class="related-tags">';
+      f.mods_liés.forEach(function(m){ html += '<span class="related-tag">'+m+'</span>'; });
+      html += '</div>';
+    }
+    html += '</div>';
+    detailCard.innerHTML = html;
+    overlay.hidden = false;
+    document.getElementById("detail-close-btn").addEventListener("click", closeDetail);
+    history.replaceState(null, "", "#"+id);
+  }
+
+  function mdBold(str){
+    return str.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+  }
+
+  function closeDetail(){
+    overlay.hidden = true;
+    history.replaceState(null, "", location.pathname);
+  }
+  overlay.addEventListener("click", function(e){ if(e.target === overlay) closeDetail(); });
+  document.addEventListener("keydown", function(e){ if(e.key === "Escape") closeDetail(); });
+
+  if(location.hash){
+    var id = location.hash.slice(1);
+    if(featuredById[id]) openDetail(id);
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>
